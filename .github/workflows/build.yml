@@ -59,11 +59,10 @@ jobs:
       - name: Build with CMake
         run: |
           cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
-#          echo "CMAKE_PREFIX_PATH=$Qt6_DIR"
-#          mkdir build
-#          cd build
-#          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$Qt6_DIR
-#          cmake --build .
+
+      - name: Archive build artifacts
+        run: |
+          cp -R build\Release\D2R-Qt-Info.exe artifacts/
 
       - name: Publish Release Artifacts
         if: startsWith(github.ref, 'refs/tags/')
