@@ -64,6 +64,12 @@ mingw32-make
 
 ## Misc
 
+### Create AppIcon.ico
+
+```
+magick AppIcon.webp -define icon:auto-resize=256,128,64,48,32,16 AppIcon.ico
+```
+
 ### Create AppIcon.icns
 
 1. Install ImageMagick (if not already installed):

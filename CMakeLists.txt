@@ -51,7 +51,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     message(STATUS "Building for Windows")
-    set(APP_ICON "icons/AppIcon.rc")  # Windows-specific icon resource
+    set(APP_ICON "res/${ICON_NAME}.ico")  # Windows-specific icon resource
     set(CMAKE_RC_COMPILER_INIT windres)
 endif ()
 
