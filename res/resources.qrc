@@ -1,0 +1,44 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file alias="AppIcon">AppIcon.webp</file>
+        <file alias="AppIcon">AppIcon.icns</file>
+
+        <file>runes/el_rune.png.webp</file>
+        <file>runes/eld_rune.png.webp</file>
+        <file>runes/tir_rune.png.webp</file>
+        <file>runes/nef_rune.png.webp</file>
+        <file>runes/eth_rune.png.webp</file>
+        <file>runes/ith_rune.png.webp</file>
+        <file>runes/tal_rune.png.webp</file>
+        <file>runes/ral_rune.png.webp</file>
+        <file>runes/ort_rune.png.webp</file>
+        <file>runes/thul_rune.png.webp</file>
+        <file>runes/amn_rune.png.webp</file>
+        <file>runes/sol_rune.png.webp</file>
+        <file>runes/shael_rune.png.webp</file>
+        <file>runes/dol_rune.png.webp</file>
+        <file>runes/hel_rune.png.webp</file>
+        <file>runes/io_rune.png.webp</file>
+        <file>runes/lum_rune.png.webp</file>
+        <file>runes/ko_rune.png.webp</file>
+        <file>runes/fal_rune.png.webp</file>
+        <file>runes/lem_rune.png.webp</file>
+        <file>runes/pul_rune.png.webp</file>
+        <file>runes/um_rune.png.webp</file>
+        <file>runes/mal_rune.png.webp</file>
+        <file>runes/ist_rune.png.webp</file>
+        <file>runes/gul_rune.png.webp</file>
+        <file>runes/vex_rune.png.webp</file>
+        <file>runes/ohm_rune.png.webp</file>
+        <file>runes/lo_rune.png.webp</file>
+        <file>runes/sur_rune.png.webp</file>
+        <file>runes/ber_rune.png.webp</file>
+        <file>runes/jah_rune.png.webp</file>
+        <file>runes/cham_rune.png.webp</file>
+        <file>runes/zod_rune.png.webp</file>
+
+        <file>json/runewords.json</file>
+        <file>json/runeword_item_type_hierarchy.json</file>
+    </qresource>
+</RCC>
