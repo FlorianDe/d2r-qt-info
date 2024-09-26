@@ -60,15 +60,16 @@ jobs:
         run: |
           cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
 
-      - name: Archive build artifacts
-        run: |
-          cp -R build\Release\D2R-Qt-Info.exe artifacts/
+# hardcoded at the bottom for now
+#      - name: Archive build artifacts
+#        run: |
+#          cp -R build/Release/D2R-Qt-Info.exe artifacts/
 
       - name: Publish Release Artifacts
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           tag: ${{ github.ref }}
-          files: artifacts/*
+          files: D:/a/d2r-qt-info/d2r-qt-info/build/Release/D2R-Qt-Info.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
