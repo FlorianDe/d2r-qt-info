@@ -1,0 +1,8 @@
+Checks: '-*,llvm-*,readability-identifier-naming'
+CheckOptions:
+  - key: readability-identifier-naming.MemberCase
+    value: camelCase
+  - key: readability-identifier-naming.MemberPrefix
+    value: 'm_'                # Enforce 'm_' prefix for member variables
+  - key: readability-identifier-naming.IgnoreMainLikeFunctions
+    value: 'true'              # Optional: Ignore main-like functions (if needed)
