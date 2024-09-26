@@ -54,16 +54,11 @@ jobs:
         with:
           version: '6.7.2'
 
-      - name: Install cmake
-        run: |
-          mkdir cmake && cd cmake &&
-          Invoke-WebRequest -Uri https://github.com/Kitware/CMake/releases/download/v3.21.1/cmake-3.21.1-windows-x86_64.msi -OutFile cmake-3.21.1-windows-x86_64.msi &&
-          ./cmake-3.21.1-windows-x86_64.msi --skip-license
       - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
       - name: Build with CMake
         run: |
-          run: cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
+          cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
 #          echo "CMAKE_PREFIX_PATH=$Qt6_DIR"
 #          mkdir build
 #          cd build
