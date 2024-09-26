@@ -39,33 +39,36 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-
-      - name: Install qt
+      - name: Install Ninja
         run: |
-          pip install yaqti &&
-          python -m yaqti install --version 6.2.0 --platform desktop --os windows --set-envs
+          choco install ninja
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.7.2'
 
       - name: Install cmake
         run: |
           mkdir cmake && cd cmake &&
           Invoke-WebRequest -Uri https://github.com/Kitware/CMake/releases/download/v3.21.1/cmake-3.21.1-windows-x86_64.msi -OutFile cmake-3.21.1-windows-x86_64.msi &&
           ./cmake-3.21.1-windows-x86_64.msi --skip-license
+      - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
       - name: Build with CMake
         run: |
-          echo "CMAKE_PREFIX_PATH=$Qt6_DIR"
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$Qt6_DIR
-          cmake --build .
+          run: cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
+#          echo "CMAKE_PREFIX_PATH=$Qt6_DIR"
+#          mkdir build
+#          cd build
+#          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$Qt6_DIR
+#          cmake --build .
 
       - name: Publish Release Artifacts
         if: startsWith(github.ref, 'refs/tags/')
