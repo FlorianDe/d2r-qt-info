@@ -1,0 +1,39 @@
+name: CI Build
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on semantic versioning tags like v1.0.0
+  pull_request:
+    branches:
+      - main  # Adjust to your default branch name
+
+jobs:
+  build-macos-arm:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Qt and other build dependencies
+        run: |
+          brew install qt@6 cmake
+
+      - name: Build the project
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt) -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+
+      - name: Archive build artifacts
+        run: |
+          cp -R build/D2R-Qt-Info.app artifacts/
+
+      - name: Publish Release Artifacts
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag: ${{ github.ref }}
+          files: artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
