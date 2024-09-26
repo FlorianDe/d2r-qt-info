@@ -32,7 +32,6 @@ jobs:
 #        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ github.ref }}
           files: artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,7 +68,6 @@ jobs:
 #        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ github.ref }}
           files: D:/a/d2r-qt-info/d2r-qt-info/build/Release/D2R-Qt-Info.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
