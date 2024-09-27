@@ -30,10 +30,7 @@ jobs:
       - name: Archive build artifacts
         run: |
           pwd
-          ls -a
-          ls artifacts
-          ls build
-          cp -R build/D2R-Qt-Info.app artifacts/
+          find build -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
           zip -r build/D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app
 
       - name: Publish Release Artifacts
@@ -41,9 +38,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/D2R-Qt-Info-MacARM.zip
             build/D2R-Qt-Info.app
-            artifacts/*
+            build/D2R-Qt-Info-MacARM.zip
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
