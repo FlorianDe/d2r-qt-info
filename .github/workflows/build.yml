@@ -24,11 +24,13 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt) -DCMAKE_BUILD_TYPE=Release
+          cmake .. -DCMAKE_SYSTEM_NAME=Darwin -DCMAKE_PREFIX_PATH=$(brew --prefix qt) -DCMAKE_BUILD_TYPE=Release
           cmake --build .
 
       - name: Archive build artifacts
         run: |
+          echo "Runner uname is:"
+          uname -s
           pwd
           find build -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
           zip -r build/D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app

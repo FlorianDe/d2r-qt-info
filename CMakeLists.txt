@@ -45,7 +45,7 @@ set(RESOURCE_FILES
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 # Set platform-specific variables
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos")
     message(STATUS "Building for macOS")
     set(APP_ICON "res/${ICON_NAME}.icns")  # macOS-specific icon
 
@@ -86,7 +86,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets nlohmann_json::nlohma
 # # Define platform-specific configurations
 
 # Set macOS-specific properties (Bundle settings, Info.plist, etc.)
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos")
     set_target_properties(${PROJECT_NAME} PROPERTIES
             MACOSX_BUNDLE TRUE
 #            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/Info.plist # Could use a file or just set the Options below MACOSX_BUNDLE_XXX
