@@ -32,16 +32,16 @@ jobs:
           pwd
           ls -a
           ls artifacts
-          build/D2R-Qt-Info.app
+          ls build
           cp -R build/D2R-Qt-Info.app artifacts/
-          zip -r D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app
+          zip -r build/D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app
 
       - name: Publish Release Artifacts
 #        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/D2R-Qt-Info-MacARM.zip
+            build/D2R-Qt-Info-MacARM.zip
             build/D2R-Qt-Info.app
             artifacts/*
 
