@@ -29,13 +29,22 @@ jobs:
 
       - name: Archive build artifacts
         run: |
+          pwd
+          ls -a
+          ls artifacts
+          build/D2R-Qt-Info.app
           cp -R build/D2R-Qt-Info.app artifacts/
+          zip -r D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app
 
       - name: Publish Release Artifacts
 #        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/*
+          files: |
+            artifacts/D2R-Qt-Info-MacARM.zip
+            build/D2R-Qt-Info.app
+            artifacts/*
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -71,6 +80,7 @@ jobs:
 #        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: D:/a/d2r-qt-info/d2r-qt-info/build/Release/D2R-Qt-Info.exe
+          files: |
+            build/Release/D2R-Qt-Info.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
