@@ -36,10 +36,6 @@ set(ICON_NAME AppIcon)
 set(CMAKE_AUTOMOC ON) # For meta object compiler 
 set(CMAKE_AUTOUIC ON) # Resource files
 set(CMAKE_AUTORCC ON) # UI Files
-set(RESOURCE_FILES
-        res/resources.qrc
-        res/${ICON_NAME}.webp
-)
 
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
@@ -54,6 +50,12 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(APP_ICON "res/${ICON_NAME}.ico")  # Windows-specific icon resource
     set(CMAKE_RC_COMPILER_INIT windres)
 endif ()
+
+set(RESOURCE_FILES
+        res/resources.qrc
+        res/${ICON_NAME}.webp
+        ${APP_ICON}
+)
 
 set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/)
 include_directories(${PROJECT_SOURCE_DIR})

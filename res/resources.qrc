@@ -2,7 +2,6 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file alias="AppIcon">AppIcon.webp</file>
-        <file alias="AppIcon">AppIcon.icns</file>
 
         <file>runes/el_rune.png.webp</file>
         <file>runes/eld_rune.png.webp</file>
