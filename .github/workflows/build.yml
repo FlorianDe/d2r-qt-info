@@ -140,7 +140,7 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          .\${{env.Qt6_DIR}}/bin/windeployqt ${{env.app_name}}.exe
+          .\${{env.Qt6_DIR}}/bin/windeployqt.exe ${{env.app_name}}.exe
 
       - name: Application test
         shell: powershell
