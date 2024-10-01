@@ -1,6 +1,13 @@
-cmake_minimum_required(VERSION 3.16)
-project(D2R-Qt-Info)
+cmake_minimum_required(VERSION 3.21.1)
+# CMAKE_POLICY(SET CMP0020 NEW)
 
+if(APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum OS X deployment version")
+    #set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64") # universal build
+    #set(CMAKE_OSX_ARCHITECTURES "x86_64") # arm build
+endif(APPLE)
+
+project(D2R-Qt-Info LANGUAGES CXX)
 # Project 
 set(PROJECT_COMPANY "FlorianDe")
 set(PROJECT_COPYRIGHT "Copyright (c) FlorianDe. All rights reserved.")
@@ -12,11 +19,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-# Set the minimum macOS deployment target
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
-#set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64") # universal build
-#set(CMAKE_OSX_ARCHITECTURES "x86_64") # arm build
 
 # Add FetchContent module
 include(FetchContent)
@@ -38,14 +40,17 @@ set(CMAKE_AUTOUIC ON) # Resource files
 set(CMAKE_AUTORCC ON) # UI Files
 
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets )
+
+
+SET(IS_MACOS (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos") BOOL)
+SET(IS_WINDOWS (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR WIN32) BOOL)
 
 # Set platform-specific variables
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos")
+if (IS_MACOS)
     message(STATUS "Building for macOS")
     set(APP_ICON "res/${ICON_NAME}.icns")  # macOS-specific icon
-
-elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+elseif (IS_WINDOWS)
     message(STATUS "Building for Windows")
     set(APP_ICON "res/${ICON_NAME}.ico")  # Windows-specific icon resource
     set(CMAKE_RC_COMPILER_INIT windres)
@@ -88,7 +93,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets nlohmann_json::nlohma
 # # Define platform-specific configurations
 
 # Set macOS-specific properties (Bundle settings, Info.plist, etc.)
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos")
+if (IS_MACOS)
     set_target_properties(${PROJECT_NAME} PROPERTIES
             MACOSX_BUNDLE TRUE
 #            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/Info.plist # Could use a file or just set the Options below MACOSX_BUNDLE_XXX
@@ -108,7 +113,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos")
     else()
         set(CMAKE_BUILD_TYPE Debug)
     endif ()
-elseif (WIN32)
+elseif (IS_WINDOWS)
     set_target_properties(${PROJECT_NAME} PROPERTIES
             WIN32_EXECUTABLE TRUE
     )
