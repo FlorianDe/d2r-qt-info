@@ -35,7 +35,7 @@ RuneCheckBoxGridWidget::RuneCheckBoxGridWidget(QWidget* parent, const int column
 	m_logicalOperatorButtonGroup->addButton(andRadioButton, static_cast<int>(LogicalRunesOperator::AND));
 
 	// Array of runes (placeholders for rune names)
-	QStringList runeNames = {"El",	"Eld",	 "Tir", "Nef", "Eth", "Ith", "Tal", "Ral", "Ort", "Thul", "Amn",
+	QList<QString> runeNames = {"El",	"Eld",	 "Tir", "Nef", "Eth", "Ith", "Tal", "Ral", "Ort", "Thul", "Amn",
 													 "Sol", "Shael", "Dol", "Hel", "Io",	"Lum", "Ko",	"Fal", "Lem", "Pul",	"Um",
 													 "Mal", "Ist",	 "Gul", "Vex", "Ohm", "Lo",	 "Sur", "Ber", "Jah", "Cham", "Zod"};
 

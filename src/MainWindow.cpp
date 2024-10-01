@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	// >();
 
 	m_scrollAreaLayout->addStretch();
-	QStringList runeWordTitles;
+	QList<QString> runeWordTitles;
 	for (const auto& rw : runewords) {
 		RunewordDetailWidget::QtRunewordDetailModel runeWordData;
 

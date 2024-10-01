@@ -20,7 +20,7 @@ public:
 	};
 
 	explicit FilterWidget(QWidget* parent = nullptr);
-	void populateRuneWords(const QStringList& runeWords) const;
+	void populateRuneWords(const QList<QString>& runeWords) const;
 
 	FilterState getFilterState() const;
 

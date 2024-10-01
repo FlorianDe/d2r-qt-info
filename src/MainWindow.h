@@ -4,7 +4,6 @@
 #include "widgets/FilterWidget.h"
 #include "widgets/RunewordDetailWidget.h"
 #include <QLineEdit>
-#include <QListView>
 #include <QMainWindow>
 #include <QScrollArea>
 #include <QSplitter>

@@ -11,12 +11,12 @@ public:
 	struct QtRunewordDetailModel {
 		QString title;					 // NOLINT(*-identifier-naming)
 		QString version;				 // NOLINT(*-identifier-naming)
-		QStringList runes;			 // NOLINT(*-identifier-naming)
-		QStringList attributes;	 // NOLINT(*-identifier-naming)
+		QList<QString> runes;			 // NOLINT(*-identifier-naming)
+		QList<QString> attributes;	 // NOLINT(*-identifier-naming)
 		int levelRequirement;		 // NOLINT(*-identifier-naming)
 		bool isClosedBnetLadder; // NOLINT(*-identifier-naming)
 		int socketsNeeded;			 // NOLINT(*-identifier-naming)
-		QStringList itemTypes;	 // NOLINT(*-identifier-naming)
+		QList<QString> itemTypes;	 // NOLINT(*-identifier-naming)
 	};
 	explicit RunewordDetailWidget(const QtRunewordDetailModel& runeWord, QWidget* parent = nullptr);
 

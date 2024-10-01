@@ -62,12 +62,12 @@ void FilterWidget::onRuneWordSelected() {
 
 void FilterWidget::populateItemTypes() const {
 	// TODO: initialize
-	const QStringList baseTypes = {"Weapon", "Armor", "Shield", "Accessory"};
+	const QList<QString> baseTypes = {"Weapon", "Armor", "Shield", "Accessory"};
 	m_itemTypeComboBox->addItems(baseTypes);
 	m_itemTypeComboBox->setCurrentIndex(-1);
 }
 
-void FilterWidget::populateRuneWords(const QStringList& runeWords) const {
+void FilterWidget::populateRuneWords(const QList<QString>& runeWords) const {
 	m_runeWordComboBox->addItems(runeWords);
 	m_runeWordComboBox->setCurrentIndex(-1);
 }
