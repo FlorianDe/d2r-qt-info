@@ -66,7 +66,7 @@ jobs:
 
       - name: Bundle App
         run: |
-          ${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
+          ${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app -no-plugins -no-strip
 
       - name: Application test
         working-directory: ${{github.workspace}}/build
