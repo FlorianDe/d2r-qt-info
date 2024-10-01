@@ -40,7 +40,7 @@ jobs:
 
       - name: Print debug information
         run: |
-          where macdeployqt
+          which macdeployqt
           cmake -version
           uname -s
           pwd
@@ -114,10 +114,12 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
       - name: Print debug information
+        shell: powershell
         run: |
           where windeployqt
           cmake -version
           tree /F
+          tree $env:Qt6_DIR /F
 
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
@@ -136,13 +138,13 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          ./windeployqt ${{env.app_name}}.exe
+          .\${{env.Qt6_DIR}}/bin/windeployqt ${{env.app_name}}.exe
 
       - name: Application test
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          ./${{env.app_name}}.exe --version
+          .\${{env.app_name}}.exe --version
 
       - name: Rename and zip artifacts
         shell: powershell
