@@ -40,6 +40,7 @@ jobs:
 
       - name: Print debug information
         run: |
+          where macdeployqt
           cmake -version
           uname -s
           pwd
@@ -65,7 +66,7 @@ jobs:
 
       - name: Bundle App
         run: |
-          ./${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
+          .${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
 
       - name: Application test
         working-directory: ${{github.workspace}}/build
@@ -114,6 +115,7 @@ jobs:
 
       - name: Print debug information
         run: |
+          where windeployqt
           cmake -version
           tree /F
 
@@ -123,7 +125,7 @@ jobs:
       - name: Configure Cmake
         shell: powershell
         working-directory: ${{github.workspace}}/build
-        run: cmake .. -DCMAKE_BUILD_TYPE=Release
+        run: cmake -DCMAKE_BUILD_TYPE=Release ..
 
       - name: Build
         shell: powershell
