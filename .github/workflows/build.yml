@@ -128,13 +128,13 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build
         run: |
-#          cmake -DCMAKE_BUILD_TYPE=Release .. # some weird powershell bug...
           Start-Process cmake -ArgumentList "-DCMAKE_BUILD_TYPE=Release .." -NoNewWindow
 
       - name: Build
         shell: powershell
         working-directory: ${{github.workspace}}/build
-        run: cmake --build .
+        run: |
+          cmake --build .
 
       - name: Bundle App
         shell: powershell
