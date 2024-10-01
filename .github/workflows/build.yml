@@ -74,8 +74,9 @@ jobs:
         run: ./${{env.app_name}}.app/Contents/MacOS/${{env.app_name}} --version
 
       - name: Rename and zip artifacts
+        working-directory: ${{github.workspace}}/build
         run: |
-          zip -r ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip ${{github.workspace}}/build/${{env.app_name}}.app
+          zip -r ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip ${{env.app_name}}.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -140,13 +141,13 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          .\${{env.Qt6_DIR}}/bin/windeployqt.exe ${{env.app_name}}.exe
+          & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe
 
       - name: Application test
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          .\${{env.app_name}}.exe --version
+          & ${{env.app_name}}.exe --version
 
       - name: Rename and zip artifacts
         shell: powershell
@@ -154,7 +155,7 @@ jobs:
         run: |
           mv ${{env.app_name}}.exe ${{env.app_name}}.Win.exe
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{env.app_name}}.Win.exe
           path: ${{github.workspace}}/build/Release/*.exe
