@@ -1,3 +1,14 @@
+## Problems
+
+### App Is Damaged and Can’t Be Opened. You Should Move It To The Trash
+
+This is due to the App not being Signed currently, you have to remove the quarantine flag from the .app and its content
+by using the following command:
+
+```bash
+xattr -rd com.apple.quarantine /path/to/D2R-Qt-Info.app
+```
+
 ## Build and Run Commands
 
 ### macOS
@@ -8,11 +19,13 @@ Build from source since universal installer needed of QT, for universal builds:
 
 1.1 Download QT Offline installer https://download.qt.io/archive/qt/
 1.2 Extract
+
 ```bash
 tar -xf qt-everywhere-src-6.7.2.tar.xz
 ```
 
 1.3 Create a folder for the configuration
+
 ```bash
 mkdir -p ~/Downloads/qt-build
 cd ~/Downloads/qt-build
@@ -20,6 +33,7 @@ cd ~/Downloads/qt-build
 
 1.4. Run the configure script inside the folder
 Documentation: https://doc.qt.io/qt-6/configure-options.html
+
 ```bash
 ~/Downloads/qt-everywhere-src-6.7.2/configure -nomake tests -nomake examples -skip qtwebengine -prefix /usr/local/qt6 -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 ```
@@ -119,4 +133,5 @@ After creating the .icns file, you can remove the intermediate AppIcon.iconset f
 ```bash
 rm -rf AppIcon.iconset
 ```
+
 
