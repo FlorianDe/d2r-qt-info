@@ -22,20 +22,20 @@ jobs:
 #        run: |
 #          brew install qt@6 cmake
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v4
-        with:
-          path: "${{ github.workspace }}/qt/"
-          key: qt-macos-latest-${{ env.qt_version }}
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v4
-        with:
-          cache: true
-          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
-          version: ${{ env.qt_version }}
-          dir: "${{ github.workspace }}/qt/"
+#      - name: Cache Qt
+#        id: cache-qt
+#        uses: actions/cache@v4
+#        with:
+#          path: "${{ github.workspace }}/qt/"
+#          key: qt-macos-latest-${{ env.qt_version }}
+#
+#      - name: Install Qt
+#        uses: jurplel/install-qt-action@v4
+#        with:
+#          cache: true
+#          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
+#          version: ${{ env.qt_version }}
+#          dir: "${{ github.workspace }}/qt/"
 
       - name: Print debug information
         run: |
@@ -65,7 +65,7 @@ jobs:
 
       - name: Bundle App
         run: |
-          ${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app -no-plugins -no-strip
+          ${{ github.workspace }}/qt/Qt/${{ env.qt_version }}/macos/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
 
       - name: Application test
         working-directory: ${{github.workspace}}/build
