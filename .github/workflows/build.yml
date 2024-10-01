@@ -7,8 +7,9 @@ on:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
-permissions:
-  contents: write
+env:
+  app_name: D2R-Qt-Info
+  qt_version: "6.7.2"
 
 jobs:
   build-macos-arm:
@@ -16,39 +17,85 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up Qt and other build dependencies
-        run: |
-          brew install qt@6 cmake
 
-      - name: Build the project
-        run: |
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_SYSTEM_NAME=Darwin -DCMAKE_PREFIX_PATH=$(brew --prefix qt) -DCMAKE_BUILD_TYPE=Release
-          cmake --build .
+#      - name: Set up Qt and other build dependencies
+#        run: |
+#          brew install qt@6 cmake
 
-      - name: Archive build artifacts
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          path: "${{ github.workspace }}/qt/"
+          key: qt-macos-latest-${{ env.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          cache: true
+          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
+#          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          version: ${{ env.qt_version }}
+          dir: "${{ github.workspace }}/qt/"
+
+      - name: Print debug information
         run: |
-          echo "Runner uname is:"
+          cmake -version
           uname -s
           pwd
-          find build -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
-          zip -r build/D2R-Qt-Info-MacARM.zip build/D2R-Qt-Info.app
+          find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
 
-      - name: Publish Release Artifacts
-#        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
+      - name: Create Build Directory
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        # Replace with -S and -B options when GitHub Actions machines are CMAKE 3.13 or higher
+        # https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem
+        # cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -DBUILD_ARCH=arm
+        run: |-
+          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release
+          cmake $GITHUB_WORKSPACE -LAH
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        run: cmake --build .
+
+      - name: Bundle App
+        run: |
+          ./${{ github.workspace }}/qt/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
+
+      - name: Application test
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        run: ./${{env.app_name}}.app/Contents/MacOS/${{env.app_name}} --version
+
+      - name: Rename and zip artifacts
+        run: |
+          zip -r ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip ${{github.workspace}}/build/${{env.app_name}}.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            build/D2R-Qt-Info.app
-            build/D2R-Qt-Info-MacARM.zip
+          name: ${{env.app_name}}.MacOS.Arm.zip
+          path: ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip
+          if-no-files-found: error
+
+#      - name: Publish Release Artifacts
+##        if: startsWith(github.ref, 'refs/tags/')
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          files: |
+#            build/D2R-Qt-Info.app
+#            build/D2R-Qt-Info-MacARM.zip
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-windows:
     runs-on: windows-latest
-
 
     steps:
       - name: Checkout code
@@ -65,20 +112,77 @@ jobs:
 
       - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
-      - name: Build with CMake
+      - name: Create Build Directory
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Configure Cmake
+        shell: powershell
+        working-directory: ${{github.workspace}}/build
+        run: cmake .. -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        shell: powershell
+        working-directory: ${{github.workspace}}/build
+        run: cmake --build .
+
+      - name: Bundle App
         run: |
-          cmake -S . -B build -G "Ninja Multi-Config" && cmake --build build --config Release
+          ./${{ github.workspace }}/qt/bin/macdeployqt ${{github.workspace}}/build/${{env.app_name}}.app
+
+      - name: Application test
+        shell: powershell
+        working-directory: ${{github.workspace}}/build/Release
+        run: ./${{env.app_name}}.exe --version
+
+      - name: Rename and zip artifacts
+        shell: powershell
+        working-directory: ${{github.workspace}}/build/Release
+        run: |
+          mv ${{env.app_name}}.exe ${{env.app_name}}.Win.exe
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.app_name}}.Win.exe
+          path: ${{github.workspace}}/build/Release/*.exe
+          if-no-files-found: error
 
 # hardcoded at the bottom for now
 #      - name: Archive build artifacts
 #        run: |
 #          cp -R build/Release/D2R-Qt-Info.exe artifacts/
 
-      - name: Publish Release Artifacts
-#        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            build/Release/D2R-Qt-Info.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Publish Release Artifacts
+##        if: startsWith(github.ref, 'refs/tags/')
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          files: |
+#            build/Release/D2R-Qt-Info.exe
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+      name: Release build
+      runs-on: ubuntu-latest
+      needs: [ build-macos-arm, build-windows ]
+      if: startsWith(github.ref, 'refs/tags/')
+      permissions:
+        contents: write
+      steps:
+        - name: Download artifacts
+          uses: actions/download-artifact@v4
+          with:
+            path: artifacts
+            pattern: ${{env.app_name}}*
+            merge-multiple: true
+
+        - name: List downloaded artifacts
+          run: ls -R artifacts
+
+        - name: Create release
+          uses: softprops/action-gh-release@v2
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            files: |
+              artifacts/D2R-Qt-Info.exe
+              artifacts/D2R-Qt-Info-MacARM.zip
