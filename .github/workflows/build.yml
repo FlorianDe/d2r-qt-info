@@ -141,15 +141,14 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe
+          & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe --no-plugins --no-translations
 
       - name: Application test
         shell: powershell
-        working-directory: ${{github.workspace}}/build/Release
         run: |
-          & ${{env.app_name}}.exe --version
+          & "${{github.workspace}}/build/Release/${{env.app_name}}.exe" --version
 
-      - name: Rename and zip artifacts
+      - name: Rename
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
