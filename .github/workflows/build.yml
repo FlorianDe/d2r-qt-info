@@ -37,6 +37,11 @@ jobs:
 #          version: ${{ env.qt_version }}
 #          dir: "${{ github.workspace }}/qt/"
 
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.qt_version }}
+
       - name: Print debug information
         run: |
           which macdeployqt
