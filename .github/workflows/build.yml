@@ -118,9 +118,9 @@ jobs:
 #          dir: "${{ github.workspace }}/qt/"
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@v3
         with:
-          version: ${{ env.qt_version }}
+          version: '6.7.2'
 
       - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
