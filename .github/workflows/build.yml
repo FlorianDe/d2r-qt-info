@@ -22,25 +22,20 @@ jobs:
 #        run: |
 #          brew install qt@6 cmake
 
-#      - name: Cache Qt
-#        id: cache-qt
-#        uses: actions/cache@v4
-#        with:
-#          path: "${{ github.workspace }}/qt/"
-#          key: qt-macos-latest-${{ env.qt_version }}
-#
-#      - name: Install Qt
-#        uses: jurplel/install-qt-action@v4
-#        with:
-#          cache: true
-#          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
-#          version: ${{ env.qt_version }}
-#          dir: "${{ github.workspace }}/qt/"
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          path: "${{ github.workspace }}/qt/"
+          key: qt-macos-latest-${{ env.qt_version }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
+          cache: true
+          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
           version: ${{ env.qt_version }}
+          dir: "${{ github.workspace }}/qt/"
 
       - name: Print debug information
         run: |
@@ -107,20 +102,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v4
-        with:
-          path: "${{ github.workspace }}/qt/"
-          key: qt-macos-latest-${{ env.qt_version }}
+#      - name: Cache Qt
+#        id: cache-qt
+#        uses: actions/cache@v4
+#        with:
+#          path: "${{ github.workspace }}/qt/"
+#          key: qt-macos-latest-${{ env.qt_version }}
+#
+#      - name: Install Qt
+#        uses: jurplel/install-qt-action@v4
+#        with:
+#          cache: true
+#          cache-key-prefix: qt-windows-latest-${{ env.qt_version }}
+#          version: ${{ env.qt_version }}
+#          dir: "${{ github.workspace }}/qt/"
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          cache: true
-          cache-key-prefix: qt-windows-latest-${{ env.qt_version }}
           version: ${{ env.qt_version }}
-          dir: "${{ github.workspace }}/qt/"
 
       - uses: ilammy/msvc-dev-cmd@v1 # This action essentially calls vcvarsall.bat for the latest VS in the runner for x64
 
