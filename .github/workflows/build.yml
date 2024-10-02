@@ -160,7 +160,7 @@ jobs:
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release/Bundle
         run: |
-          & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe --no-plugins --no-translations
+          & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe --no-translations
 
       #TODO Have to revisit this part, somehow the App is starting without passed options...
       #      - name: Application test
