@@ -149,9 +149,16 @@ jobs:
         run: |
           cmake --build build --config Release
 
-      - name: Bundle App
+      - name: Move .exe
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
+        run: |
+          New-Item -ItemType Directory -Force -Path ".\Bundle"
+          Move-Item -Force "${{env.app_name}}.exe" ".\Bundle"
+
+      - name: Bundle App
+        shell: powershell
+        working-directory: ${{github.workspace}}/build/Release/Bundle
         run: |
           & "${{env.Qt6_DIR}}/bin/windeployqt.exe" ${{env.app_name}}.exe --no-plugins --no-translations
 
@@ -162,22 +169,29 @@ jobs:
 #        run: |
 #          ./${{env.app_name}}.exe --version
 
-      - name: Rename
+      # Maybe include 32bit/64bit instead of Win inside the name
+#      - name: Rename
+#        shell: powershell
+#        working-directory: ${{github.workspace}}/build/Release/Bundle
+#        run: |
+#          mv ${{env.app_name}}.exe ${{env.app_name}}.Win.exe
+
+      - name: Create .zip including all .dlls etc
         shell: powershell
         working-directory: ${{github.workspace}}/build/Release
         run: |
-          mv ${{env.app_name}}.exe ${{env.app_name}}.Win.exe
+          Compress-Archive -Path ".\Bundle\*" -DestinationPath ".\${{env.app_name}}.Windows.zip"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{env.app_name}}.Win.exe
-          path: ${{github.workspace}}/build/Release/*.exe
+          name: ${{env.app_name}}.Windows.zip
+          path: ${{github.workspace}}/build/Release/Bundle/${{env.app_name}}.Windows.zip
           if-no-files-found: error
 
   release:
       name: Release build
       runs-on: ubuntu-latest
-      needs: [ build-macos-arm, build-windows ]
+      needs: [ build-macos, build-windows ]
       if: startsWith(github.ref, 'refs/tags/')
       permissions:
         contents: write
