@@ -12,8 +12,22 @@ env:
   qt_version: "6.7.2"
 
 jobs:
-  build-macos-arm:
-    runs-on: macos-latest
+  build-macos:
+    strategy:
+      matrix:
+        include:
+          - name: "macOS Sonoma 14 arm"
+            os-short: MacOS
+            os: macos-latest
+            arch: "ARM"
+          - name: "macOS Monterey 12 x86-64"
+            os-short: MacOS
+            os: macos-12
+            arch: "x86-64"
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,13 +41,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "${{ github.workspace }}/qt/"
-          key: qt-macos-latest-${{ env.qt_version }}
+          key: qt-${{matrix.os}}-${{ env.qt_version }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
           cache: true
-          cache-key-prefix: qt-macos-latest-${{ env.qt_version }}
+          cache-key-prefix: qt-${{matrix.os}}-${{ env.qt_version }}
           version: ${{ env.qt_version }}
           dir: "${{ github.workspace }}/qt/"
 
@@ -48,15 +62,11 @@ jobs:
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
 
-      - name: Configure CMake
-        shell: bash
-        working-directory: ${{github.workspace}}/build
-        # Replace with -S and -B options when GitHub Actions machines are CMAKE 3.13 or higher
-        # https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem
-        # cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -DBUILD_ARCH=arm
-        run: |-
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release
-          cmake $GITHUB_WORKSPACE -LAH
+      - name: Configure Cmake
+        shell: powershell
+        working-directory: ${{github.workspace}}
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
         working-directory: ${{github.workspace}}/build
@@ -72,28 +82,20 @@ jobs:
         shell: bash
         run: ./${{env.app_name}}.app/Contents/MacOS/${{env.app_name}} --version
 
-      - name: Rename and zip artifacts
+      - name: Prepare artifacts
         working-directory: ${{github.workspace}}/build
+        # zip -r ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip ${{env.app_name}}.app
         run: |
-          zip -r ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip ${{env.app_name}}.app
+          mv ${{env.app_name}}.app ${{env.app_name}}.${{ matrix.os-short }}.${{ matrix.arch }}.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
-        with:
-          name: ${{env.app_name}}.MacOS.Arm.zip
-          path: ${{github.workspace}}/build/${{env.app_name}}-MacARM.zip
-          if-no-files-found: error
-
-#      - name: Publish Release Artifacts
-##        if: startsWith(github.ref, 'refs/tags/')
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: |
-#            build/D2R-Qt-Info.app
-#            build/D2R-Qt-Info-MacARM.zip
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{env.app_name}}.${{ matrix.os-short }}.${{ matrix.arch }}.app
+          path: ${{github.workspace}}/build/${{env.app_name}}.${{ matrix.os-short }}.${{ matrix.arch }}.app
+          if-no-files-found: error
 
   build-windows:
     runs-on: windows-latest
@@ -107,7 +109,7 @@ jobs:
 #        uses: actions/cache@v4
 #        with:
 #          path: "${{ github.workspace }}/qt/"
-#          key: qt-macos-latest-${{ env.qt_version }}
+#          key: qt-${{matrix.os}}-${{ env.qt_version }}
 #
 #      - name: Install Qt
 #        uses: jurplel/install-qt-action@v4
