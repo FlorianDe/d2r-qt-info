@@ -7,7 +7,6 @@ CheckBoxImageWidget::CheckBoxImageWidget(const QString& imagePath, const QString
 		: QWidget(parent), m_checkbox(new QCheckBox(text, this)), m_imageLabel(new QLabel(this)),
 			m_glowEffect(new QGraphicsDropShadowEffect(this)) // Initialize glowEffect here
 {
-
 	m_checkbox->setContentsMargins(0, 0, 0, 0);
 	m_checkbox->setFixedHeight(32);
 

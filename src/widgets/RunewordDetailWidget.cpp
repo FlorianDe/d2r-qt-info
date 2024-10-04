@@ -2,7 +2,6 @@
 
 #include "FilterWidget.h"
 
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
 
@@ -14,20 +13,21 @@ RunewordDetailWidget::RunewordDetailWidget(const QtRunewordDetailModel& runeWord
 void RunewordDetailWidget::setupUI(const QtRunewordDetailModel& runeWord) {
 	QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-	// Add sections to the main layout
 	mainLayout->addWidget(createTitleAndRunesSection(runeWord));
 	mainLayout->addWidget(createAttributesSection(runeWord));
 	mainLayout->addWidget(createVersionAndCompatibilitySection(runeWord));
+	mainLayout->setSpacing(1);
 
 	setLayout(mainLayout);
 }
 
 QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetailModel& runeWord) {
 	QWidget* section = new QWidget(this);
-	section->setStyleSheet("background-color: #45070E;");
+	section->setObjectName("section");
+	section->setStyleSheet("#section {background-color: #45070E; color: #FBFF79; border: 2px solid #212121;}");
 
 	QVBoxLayout* layout = new QVBoxLayout(section);
-	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setContentsMargins(0, 5, 0, 5);
 
 	QLabel* titleLabel = new QLabel(runeWord.title, section);
 	titleLabel->setAlignment(Qt::AlignCenter);
@@ -47,7 +47,8 @@ QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetail
 QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailModel& runeWord) {
 	constexpr int RUNE_SIZE = 48;
 	QWidget* section = new QWidget(this);
-	section->setStyleSheet("background-color: #2E2927;");
+	section->setObjectName("section");
+	section->setStyleSheet("#section{background-color: #2E2927; color: #ffffff; border: 2px solid #212121;}");
 
 	QHBoxLayout* mainLayout = new QHBoxLayout(section);
 
@@ -70,12 +71,11 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 
 	QWidget* attributesContent = new QWidget(this);
 	QVBoxLayout* attributesLayout = new QVBoxLayout(attributesContent);
-	// attributesContent->setStyleSheet("border: 1px solid red;");
 	attributesLayout->setContentsMargins(0, 0, 0, 0);
 	attributesLayout->setSpacing(0);
 
 	// Header label for description
-	QLabel* headerLabel = new QLabel("Eigenschaften des Runenworts:", attributesContent);
+	QLabel* headerLabel = new QLabel("Properties of the Runeword:", attributesContent);
 	headerLabel->setAlignment(Qt::AlignCenter);
 	headerLabel->setStyleSheet("font-weight: bold;");
 	headerLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -86,19 +86,6 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	attributeLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 	// attributeLabel->setWordWrap(true);
 	attributesLayout->addWidget(attributeLabel);
-
-	// for (std::size_t i = 0; i < runeWord.attributes.size(); ++i) {
-	//     QLabel *attributeLabel = new QLabel(runeWord.attributes[i], attributesContent);
-	//     if(i % 2 == 0){
-	//         attributeLabel->setStyleSheet("background-color: #2E2927;");
-	//     } else {
-	//         attributeLabel->setStyleSheet("background-color: #25211F;");
-	//     }
-
-	//     attributeLabel->setAlignment(Qt::AlignCenter);
-	//     attributeLabel->setWordWrap(true);
-	//     attributesLayout->addWidget(attributeLabel);
-	// }
 
 	const QString templateString = "Level Requirements: %1";
 	QLabel* levelRequirementLabel = new QLabel(templateString.arg(runeWord.levelRequirement), section);
@@ -117,24 +104,16 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 
 QWidget* RunewordDetailWidget::createVersionAndCompatibilitySection(const QtRunewordDetailModel& runeWord) {
 	QWidget* section = new QWidget(this);
-	section->setStyleSheet("background-color: #2E2927; padding: 0; margin: 0");
+	section->setObjectName("section");
+	section->setStyleSheet("#section{background-color: #2E2927; color: #ffffff; border: 2px solid #212121;}");
 
 	QVBoxLayout* layout = new QVBoxLayout(section);
-	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setSpacing(5);
 
-	// // Create a QTextEdit widget
-	// QTextEdit *textEdit = new QTextEdit;
-
-	// // Set the QTextEdit to read-only
-	// textEdit->setReadOnly(true);
-	// textEdit->setFrameStyle(QFrame::NoFrame);
-	// textEdit->setContentsMargins(0, 0, 0, 0);
-
-	// Set multiline formatted text
 	const QString templateString = "<b>Available in:</b> %1<br>"
 																 "<b>Version:</b> %2<br>"
-																 "<b>Sockets:</b> genau %3<br>"
-																 "<b>Gegenstand:</b> %4";
+																 "<b>Sockets:</b> %3<br>"
+																 "<b>Item type/s:</b> %4";
 	const QString result = templateString.arg(runeWord.isClosedBnetLadder ? "Closed BNet Ladder" : "Non-Ladder")
 														 .arg(runeWord.version == "" ? "Since beginning" : runeWord.version)
 														 .arg(runeWord.socketsNeeded)
@@ -144,6 +123,7 @@ QWidget* RunewordDetailWidget::createVersionAndCompatibilitySection(const QtRune
 	footerTextLabel->setText(result);
 	footerTextLabel->setAlignment(Qt::AlignCenter);
 	footerTextLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+	footerTextLabel->setStyleSheet("border: 0px;");
 
 	layout->addWidget(footerTextLabel);
 
