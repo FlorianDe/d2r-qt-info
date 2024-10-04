@@ -14,7 +14,11 @@ class MainWindow final : public QMainWindow {
 public:
 	explicit MainWindow(QWidget* parent = nullptr);
 
+protected:
+	bool eventFilter(QObject *obj, QEvent *event) override;
+
 private slots:
+	void updateTheme();
 	void onRunewordSelectionChange(const QString& runeWord);
 	void onFilterChanged(const FilterWidget::FilterState& filterState);
 

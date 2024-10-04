@@ -1,4 +1,4 @@
-#include <QFile>
+#include <QDir>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPointer>
@@ -9,13 +9,16 @@
 
 #include "MainWindow.h"
 #include "constants.h"
+#include "misc/debug_utils.h"
+#include "widgets/RunewordDetailWidget.h"
 #include "json/types/types.h"
 #include "json/utils.h"
-#include "widgets/RunewordDetailWidget.h"
+
 #include <misc/qt_utils.h>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	DebugUtils::printFiles(":/");
+
 	constexpr int WIDTH = 1200;
 	constexpr int HEIGHT = 600;
 
@@ -32,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	m_scrollArea = new QScrollArea(this);
 	m_scrollAreaContent = new QWidget(this);
 	m_scrollAreaLayout = new QVBoxLayout(m_scrollAreaContent);
-	m_scrollAreaContent->setStyleSheet("background-color: #000000;");
+	// m_scrollAreaContent->setStyleSheet("background-color: #000000;");
 	m_scrollAreaContent->setLayout(m_scrollAreaLayout);
 	m_scrollArea->setWidget(m_scrollAreaContent);
 	m_scrollArea->setWidgetResizable(true);
@@ -102,9 +105,60 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	this->setMenuBar(bar);
 	this->setUnifiedTitleAndToolBarOnMac(true); // macos specific settings
 
+	this->updateTheme();
+	this->installEventFilter(this);
+
 	// Set the size of the main window
 	this->resize(WIDTH, HEIGHT);
 	this->show();
+}
+
+void MainWindow::updateTheme() {
+	// if (QtUtils::isDarkMode()) {
+	// 	this->setStyleSheet(R"(
+	//            QWidget {
+	//                background-color: #00ff00;
+	//            }
+	//        )");
+	// } else {
+	// 	this->setStyleSheet(R"(
+	//            QWidget {
+	//                background-color: #ff0000;
+	//            }
+	//        )");
+	// }
+
+	// QPalette darkPalette;
+	// darkPalette.setColor(QPalette::Window,QColor(53,53,53));
+	// darkPalette.setColor(QPalette::WindowText,Qt::white);
+	// darkPalette.setColor(QPalette::Disabled,QPalette::WindowText,QColor(127,127,127));
+	// darkPalette.setColor(QPalette::Base,QColor(42,42,42));
+	// darkPalette.setColor(QPalette::AlternateBase,QColor(66,66,66));
+	// darkPalette.setColor(QPalette::ToolTipBase,Qt::white);
+	// darkPalette.setColor(QPalette::ToolTipText,Qt::white);
+	// darkPalette.setColor(QPalette::Text,Qt::white);
+	// darkPalette.setColor(QPalette::Disabled,QPalette::Text,QColor(127,127,127));
+	// darkPalette.setColor(QPalette::Dark,QColor(35,35,35));
+	// darkPalette.setColor(QPalette::Shadow,QColor(20,20,20));
+	// darkPalette.setColor(QPalette::Button,QColor(53,53,53));
+	// darkPalette.setColor(QPalette::ButtonText,Qt::white);
+	// darkPalette.setColor(QPalette::Disabled,QPalette::ButtonText,QColor(127,127,127));
+	// darkPalette.setColor(QPalette::BrightText,Qt::red);
+	// darkPalette.setColor(QPalette::Link,QColor(42,130,218));
+	// darkPalette.setColor(QPalette::Highlight,QColor(42,130,218));
+	// darkPalette.setColor(QPalette::Disabled,QPalette::Highlight,QColor(80,80,80));
+	// darkPalette.setColor(QPalette::HighlightedText,Qt::white);
+	// darkPalette.setColor(QPalette::Disabled,QPalette::HighlightedText,QColor(127,127,127));
+	// this->setPalette(darkPalette);
+}
+
+bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
+	if (event->type() == QEvent::ThemeChange) {
+		qDebug() << "Update theme.";
+		updateTheme();
+		return true;
+	}
+	return QMainWindow::eventFilter(obj, event);
 }
 
 void MainWindow::onRunewordSelectionChange(const QString& runeWord) {
