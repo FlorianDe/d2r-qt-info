@@ -12,8 +12,10 @@
 #include "json/types/types.h"
 #include "json/utils.h"
 #include "widgets/RunewordDetailWidget.h"
+#include <misc/qt_utils.h>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+	DebugUtils::printFiles(":/");
 	constexpr int WIDTH = 1200;
 	constexpr int HEIGHT = 600;
 
