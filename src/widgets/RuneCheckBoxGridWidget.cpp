@@ -7,7 +7,7 @@
 
 RuneCheckBoxGridWidget::RuneCheckBoxGridWidget(QWidget* parent, const int columnCount) : QWidget(parent) {
 
-	QGroupBox *groupBox = new QGroupBox("Runes selection", this);
+	QGroupBox *groupBox = new QGroupBox(tr("Runes selection"), this);
 	QVBoxLayout *layout = new QVBoxLayout(groupBox);
 	// this->setStyleSheet("border: 1px solid red;");
 
@@ -19,10 +19,10 @@ RuneCheckBoxGridWidget::RuneCheckBoxGridWidget(QWidget* parent, const int column
 	gridWidget->setLayout(gridLayout);
 
 	QWidget* radioButtonWidget = new QWidget(this);
-	QLabel *radioButtonLabel = new QLabel("Select an option:", this);
-	QRadioButton *orRadioButton = new QRadioButton("OR", this);
+	QLabel *radioButtonLabel = new QLabel(tr("Select an option:"), this);
+	QRadioButton *orRadioButton = new QRadioButton(tr("OR"), this);
 	orRadioButton->setChecked(true);
-	QRadioButton *andRadioButton = new QRadioButton("AND", this);
+	QRadioButton *andRadioButton = new QRadioButton(tr("AND"), this);
 	QHBoxLayout *radioButtonsLayout = new QHBoxLayout(radioButtonWidget);
 	radioButtonsLayout->addWidget(radioButtonLabel);
 	radioButtonsLayout->addWidget(orRadioButton);

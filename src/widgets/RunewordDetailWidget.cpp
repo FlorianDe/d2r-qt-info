@@ -75,7 +75,7 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	attributesLayout->setSpacing(0);
 
 	// Header label for description
-	QLabel* headerLabel = new QLabel("Properties of the Runeword:", attributesContent);
+	QLabel* headerLabel = new QLabel(tr("Properties of the Runeword:"), attributesContent);
 	headerLabel->setAlignment(Qt::AlignCenter);
 	headerLabel->setStyleSheet("font-weight: bold;");
 	headerLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -87,7 +87,7 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	// attributeLabel->setWordWrap(true);
 	attributesLayout->addWidget(attributeLabel);
 
-	const QString templateString = "Level Requirements: %1";
+	const QString templateString = tr("Level Requirements: %1");
 	QLabel* levelRequirementLabel = new QLabel(templateString.arg(runeWord.levelRequirement), section);
 	levelRequirementLabel->setAlignment(Qt::AlignCenter);
 	levelRequirementLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -110,12 +110,12 @@ QWidget* RunewordDetailWidget::createVersionAndCompatibilitySection(const QtRune
 	QVBoxLayout* layout = new QVBoxLayout(section);
 	layout->setSpacing(5);
 
-	const QString templateString = "<b>Available in:</b> %1<br>"
+	const QString templateString = tr("<b>Available in:</b> %1<br>"
 																 "<b>Version:</b> %2<br>"
 																 "<b>Sockets:</b> %3<br>"
-																 "<b>Item type/s:</b> %4";
-	const QString result = templateString.arg(runeWord.isClosedBnetLadder ? "Closed BNet Ladder" : "Non-Ladder")
-														 .arg(runeWord.version == "" ? "Since beginning" : runeWord.version)
+																 "<b>Item type/s:</b> %4");
+	const QString result = templateString.arg(runeWord.isClosedBnetLadder ? tr("Closed BNet Ladder") : tr("Non-Ladder"))
+														 .arg(runeWord.version == "" ? tr("Since beginning") : runeWord.version)
 														 .arg(runeWord.socketsNeeded)
 														 .arg(runeWord.itemTypes.join(", "));
 

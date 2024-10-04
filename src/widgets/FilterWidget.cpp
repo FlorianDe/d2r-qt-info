@@ -10,7 +10,7 @@ FilterWidget::FilterWidget(QWidget* parent) : QWidget(parent) { setupUI(); }
 void FilterWidget::setupUI() {
 	const QPointer mainLayout = new QVBoxLayout();
 
-	QLabel* runeWordLabel = new QLabel("Select RuneWord:", this);
+	QLabel* runeWordLabel = new QLabel(tr("Select runeword")+":", this);
 	m_runeWordComboBox = new QComboBox(this);
 	this->connect(m_runeWordComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
 					&FilterWidget::onRuneWordSelected);
@@ -20,13 +20,13 @@ void FilterWidget::setupUI() {
 	line->setFrameShape(QFrame::HLine);		// Horizontal line
 	line->setFrameShadow(QFrame::Sunken); // Sunken style
 
-	QLabel* itemTypeLabel = new QLabel("Select Item Type:", this);
+	QLabel* itemTypeLabel = new QLabel(tr("Select item type")+":", this);
 
 	m_itemTypeComboBox = new QComboBox(this);
 	populateItemTypes();
 
 	QVBoxLayout* socketSelectionLayout = new QVBoxLayout();
-	QLabel* socketsSelectionLabel = new QLabel("Sockets");
+	QLabel* socketsSelectionLabel = new QLabel(tr("Sockets"));
 	m_socketsSelection = new SocketAmountCheckBoxGridWidget(this, 5);
 	socketSelectionLayout->addWidget(socketsSelectionLabel);
 	socketSelectionLayout->addWidget(m_socketsSelection);
@@ -34,9 +34,9 @@ void FilterWidget::setupUI() {
 	m_runeCheckBoxWidget = new RuneCheckBoxGridWidget(this);
 
 	QHBoxLayout* buttonLayout = new QHBoxLayout();
-	m_searchButton = new QPushButton("Search", this);
+	m_searchButton = new QPushButton(tr("Search"), this);
 	this->connect(m_searchButton, &QPushButton::clicked, this, &FilterWidget::onSearchClicked);
-	m_resetButton = new QPushButton("Reset", this);
+	m_resetButton = new QPushButton(tr("Reset"), this);
 	this->connect(m_resetButton, &QPushButton::clicked, this, &FilterWidget::onResetClicked);
 	buttonLayout->addWidget(m_searchButton);
 	buttonLayout->addWidget(m_resetButton);
