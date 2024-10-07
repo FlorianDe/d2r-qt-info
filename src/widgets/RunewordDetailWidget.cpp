@@ -77,7 +77,7 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	runeContentLayout->setSpacing(0);
 
 	for (const QString& rune : runeWord.runes) {
-		QPixmap icon(":/runes/" + rune.toLower() + "_rune.png.webp");
+		QPixmap icon(":/images/runes/" + rune.toLower() + "_rune.png.webp");
 		QLabel* iconLabel = new QLabel(this);
 		iconLabel->setFixedSize(RUNE_SIZE, RUNE_SIZE);
 

@@ -7,7 +7,7 @@ rune_list="";
 # Iterate over each rune and download the image
 for rune in "${runes[@]}"; do
     lowercase_rune=$(echo "$rune" | tr '[:upper:]' '[:lower:]')
-    rune_list+="<file>runes/${lowercase_rune}_rune.png.webp</file>"$'\n'
+    rune_list+="<file>images/runes/${lowercase_rune}_rune.png.webp</file>"$'\n'
 
 done
 

@@ -1938,4 +1938,4 @@ for (const rw of rws) {
   rw["description"] = rwDescriptions[rw.title].trim().split("\n").map(r => r.trim())
 }
 
-fs.writeFileSync("../res/runewords.json", JSON.stringify(rws, null, 2));
+fs.writeFileSync("../res/json/runewords.json", JSON.stringify(rws, null, 2));

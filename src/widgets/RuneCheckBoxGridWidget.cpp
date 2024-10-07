@@ -42,7 +42,7 @@ RuneCheckBoxGridWidget::RuneCheckBoxGridWidget(QWidget* parent, const int column
 	int row = 0, col = 0;
 	for (int i = 0; i < runeNames.size(); ++i) {
 		CheckBoxImageWidget* checkBox =
-				new CheckBoxImageWidget(":/runes/" + runeNames[i].toLower() + "_rune.png.webp", runeNames[i], this);
+				new CheckBoxImageWidget(":/images/runes/" + runeNames[i].toLower() + "_rune.png.webp", runeNames[i], this);
 
 		m_checkBoxes.append(checkBox);
 
