@@ -24,14 +24,25 @@ void RunewordDetailWidget::setupUI(const QtRunewordDetailModel& runeWord) {
 QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetailModel& runeWord) {
 	QWidget* section = new QWidget(this);
 	section->setObjectName("section");
-	section->setStyleSheet("#section {background-color: #45070E; color: #FBFF79; border: 2px solid #212121;}");
+	// language=CSS
+	section->setStyleSheet(R"(
+	#section {
+		background-color: #45070E;
+		border: 2px solid #212121;
+	}
+	)");
 
 	QVBoxLayout* layout = new QVBoxLayout(section);
 	layout->setContentsMargins(0, 5, 0, 5);
 
 	QLabel* titleLabel = new QLabel(runeWord.title, section);
 	titleLabel->setAlignment(Qt::AlignCenter);
-	// titleLabel->setStyleSheet("font-weight: bold; color: yellow; padding: 0px;");
+	// language=CSS
+	titleLabel->setStyleSheet(R"(*{
+		font-weight: bold;
+		color: #ffe979;
+		padding: 0px;
+	})");
 
 	QLabel* runesLabel = new QLabel(runeWord.runes.join(", "), section);
 	runesLabel->setAlignment(Qt::AlignCenter);
@@ -48,7 +59,14 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	constexpr int RUNE_SIZE = 48;
 	QWidget* section = new QWidget(this);
 	section->setObjectName("section");
-	section->setStyleSheet("#section{background-color: #2E2927; color: #ffffff; border: 2px solid #212121;}");
+	// language=CSS
+	section->setStyleSheet(R"(
+	#section{
+		background-color: #2E2927;
+		color: #ffffff;
+		border: 2px solid #212121;
+	}
+	)");
 
 	QHBoxLayout* mainLayout = new QHBoxLayout(section);
 
@@ -111,9 +129,9 @@ QWidget* RunewordDetailWidget::createVersionAndCompatibilitySection(const QtRune
 	layout->setSpacing(5);
 
 	const QString templateString = tr("<b>Available in:</b> %1<br>"
-																 "<b>Version:</b> %2<br>"
-																 "<b>Sockets:</b> %3<br>"
-																 "<b>Item type/s:</b> %4");
+																		"<b>Version:</b> %2<br>"
+																		"<b>Sockets:</b> %3<br>"
+																		"<b>Item type/s:</b> %4");
 	const QString result = templateString.arg(runeWord.isClosedBnetLadder ? tr("Closed BNet Ladder") : tr("Non-Ladder"))
 														 .arg(runeWord.version == "" ? tr("Since beginning") : runeWord.version)
 														 .arg(runeWord.socketsNeeded)
