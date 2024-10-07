@@ -1,8 +1,11 @@
+#include <QApplication>
 #include <QDir>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QOperatingSystemVersion>
 #include <QPointer>
 #include <QScreen>
+#include <QStyleFactory>
 #include <algorithm>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -17,6 +20,17 @@
 #include <misc/qt_utils.h>
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+	qDebug() << "Default style:" << this->style()->objectName();
+	if (QOperatingSystemVersion::current().type() == QOperatingSystemVersion::Windows) {
+		const QString styleName = "Windows";
+		if (QStyle* style = QStyleFactory::create(styleName)) {
+			QApplication::setStyle(style);
+		} else {
+			qDebug() << "Failed to create and apply" << styleName << "for  OS:" << QOperatingSystemVersion::current().name();
+		}
+	}
+	qDebug() << "Current style:" << this->style()->objectName();
+
 	DebugUtils::printFiles(":/");
 
 	constexpr int WIDTH = 1200;
@@ -52,12 +66,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	// >();
 
 	m_scrollAreaLayout->addStretch();
-	QList<QString> runeWordTitles;
+	QList<QString> runewordTitles;
 	for (const auto& rw : runewords) {
 		RunewordDetailWidget::QtRunewordDetailModel runeWordData;
 
 		runeWordData.title = QString::fromStdString(rw.title);
-		runeWordTitles << runeWordData.title;
+		runewordTitles << runeWordData.title;
 
 		if (rw.version.has_value()) {
 			runeWordData.version = QString::fromStdString(rw.version.value());
@@ -84,7 +98,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	}
 	m_scrollAreaLayout->addStretch();
 
-	m_filterWidget->populateRuneWords(runeWordTitles);
+	m_filterWidget->populateRuneWords(runewordTitles);
 
 	this->connect(m_filterWidget, &FilterWidget::runewordSelectionChanged, this, &MainWindow::onRunewordSelectionChange);
 	this->connect(m_filterWidget, &FilterWidget::filterChanged, this, &MainWindow::onFilterChanged);
@@ -97,7 +111,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	// languageMenu->addAction(englishAction);
 	// languageMenu->addAction(germanAction);
 
-	QMenu *helpMenu =  this->menuBar()->addMenu(tr("Help"));
+	QMenu* helpMenu = this->menuBar()->addMenu(tr("Help"));
 	const QPointer aboutAction = new QAction(tr("&About"), this);
 	connect(aboutAction, &QAction::triggered, this, [this] {
 		QMessageBox::about(this, tr("About"),
