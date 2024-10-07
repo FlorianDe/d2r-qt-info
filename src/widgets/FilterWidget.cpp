@@ -67,8 +67,10 @@ void FilterWidget::populateItemTypes() const {
 	m_itemTypeComboBox->setCurrentIndex(-1);
 }
 
-void FilterWidget::populateRuneWords(const QList<QString>& runeWords) const {
-	m_runeWordComboBox->addItems(runeWords);
+void FilterWidget::populateRuneWords(const QList<QString>& runewords) const {
+	auto rws = runewords;
+	rws.sort();
+	m_runeWordComboBox->addItems(rws);
 	m_runeWordComboBox->setCurrentIndex(-1);
 }
 FilterWidget::FilterState FilterWidget::getFilterState() const {
@@ -90,6 +92,7 @@ void FilterWidget::onSearchClicked() {
 }
 
 void FilterWidget::onResetClicked() {
+	m_runeWordComboBox->setCurrentIndex(-1);
 	m_itemTypeComboBox->setCurrentIndex(-1);
 	m_socketsSelection->reset();
 	m_runeCheckBoxWidget->reset();
