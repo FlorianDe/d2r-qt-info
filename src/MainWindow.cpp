@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	m_scrollArea = new QScrollArea(this);
 	m_scrollAreaContent = new QWidget(this);
 	m_scrollAreaLayout = new QVBoxLayout(m_scrollAreaContent);
-	// m_scrollAreaContent->setStyleSheet("background-color: #000000;");
+
 	m_scrollAreaContent->setLayout(m_scrollAreaLayout);
 	m_scrollArea->setWidget(m_scrollAreaContent);
 	m_scrollArea->setWidgetResizable(true);
@@ -89,20 +89,23 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	this->connect(m_filterWidget, &FilterWidget::runewordSelectionChanged, this, &MainWindow::onRunewordSelectionChange);
 	this->connect(m_filterWidget, &FilterWidget::filterChanged, this, &MainWindow::onFilterChanged);
 
-	// setup menu bar
-	const QPointer bar = new QMenuBar(this);
+	// QMenu *languageMenu = this->menuBar()->addMenu(tr("Language"));
+	// QAction *englishAction = new QAction(tr("English"), this);
+	// QAction *germanAction = new QAction(tr("German"), this);
+	// connect(englishAction, &QAction::triggered, this, [this]() { switchLanguage("en"); });
+	// connect(germanAction, &QAction::triggered, this, [this]() { switchLanguage("de"); });
+	// languageMenu->addAction(englishAction);
+	// languageMenu->addAction(germanAction);
 
-	// set about dialog
-	const QPointer action_about = new QAction(tr("&About"), this);
-	this->connect(action_about, &QAction::triggered, this, [this] {
+	QMenu *helpMenu =  this->menuBar()->addMenu(tr("Help"));
+	const QPointer aboutAction = new QAction(tr("&About"), this);
+	connect(aboutAction, &QAction::triggered, this, [this] {
 		QMessageBox::about(this, tr("About"),
 											 QCoreApplication::applicationName() + "\n" + QCoreApplication::applicationVersion());
 	});
+	helpMenu->addAction(aboutAction);
 
-	QMenu* fileMenuBar = menuBar()->addMenu(tr("&File"));
-	fileMenuBar->addAction(action_about);
-
-	this->setMenuBar(bar);
+	// this->setMenuBar(bar);
 	this->setUnifiedTitleAndToolBarOnMac(true); // macos specific settings
 
 	this->updateTheme();
