@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	const QPointer aboutAction = new QAction(tr("&About"), this);
 	connect(aboutAction, &QAction::triggered, this, [this] {
 		QMessageBox::about(this, tr("About"),
-											 QCoreApplication::applicationName() + "\n" + QCoreApplication::applicationVersion());
+											 QCoreApplication::applicationName() + "\n\nVersion: " + QCoreApplication::applicationVersion() + "\n\nHash: "+CMAKE_DEF_COMMIT_HASH_VERSION);
 	});
 	helpMenu->addAction(aboutAction);
 
