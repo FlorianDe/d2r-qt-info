@@ -21,7 +21,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	qDebug() << "Default style:" << this->style()->objectName();
-	if (QOperatingSystemVersion::current().type() == QOperatingSystemVersion::Windows) {
+	if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
 		const QString styleName = "Windows";
 		if (QStyle* style = QStyleFactory::create(styleName)) {
 			QApplication::setStyle(style);
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	const auto runewords = JsonUtils::readJsonFile(QString::fromStdString(Constants::Files::RUNEWORDS))
 														 .get<std::vector<types::json::Runeword>>();
 	// auto runewordsHierarchy =
-	// 	readJsonFile(":/runeword_item_type_hierarchy.json").get<std::vector<ns::RuneWord>
+	// 	JsonUtils::readJsonFile(":/runeword_item_type_hierarchy.json").get<std::vector<types::json::Runeword>
 	// >();
 
 	m_scrollAreaLayout->addStretch();
