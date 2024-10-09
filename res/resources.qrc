@@ -2,7 +2,6 @@
 <RCC version="1.0">
 <qresource prefix="/">
   <file alias="AppIcon">AppIcon.webp</file>
-  <file>images/.DS_Store</file>
   <file>images/item_base_types/armors.png</file>
   <file>images/item_base_types/axes.png</file>
   <file>images/item_base_types/bows.png</file>

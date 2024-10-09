@@ -25,8 +25,10 @@ file(APPEND ${RESOURCE_QRC} "  <file alias=\"AppIcon\">AppIcon.webp</file>\n")
 
 # Iterate over all found files and append to the resources.qrc file
 foreach (file ${RESOURCE_FILES_TO_INCLUDE})
+    if(NOT file MATCHES ".*\\.(DS_Store|jpg)$")
     message(STATUS ${file})
     file(APPEND ${RESOURCE_QRC} "  <file>${file}</file>\n")
+    endif()
 endforeach ()
 
 # Close the qresource tag
