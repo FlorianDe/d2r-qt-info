@@ -42,18 +42,17 @@ set(CMAKE_AUTORCC ON) # UI Files
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets )
 
-
-SET(IS_MACOS (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Macos") BOOL)
-SET(IS_WINDOWS (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR WIN32) BOOL)
-
 # Set platform-specific variables
-if (IS_MACOS)
+if (APPLE)
     message(STATUS "Building for macOS")
     set(APP_ICON "res/${ICON_NAME}.icns")  # macOS-specific icon
-elseif (IS_WINDOWS)
+elseif (WIN32)
     message(STATUS "Building for Windows")
     set(APP_ICON "res/${ICON_NAME}.ico")  # Windows-specific icon resource
     set(CMAKE_RC_COMPILER_INIT windres)
+    set(WINDOWS_EXECUTABLE TRUE)
+    set(MACOSX_BUNDLE FALSE)  # Ensure this is not treated as a macOS bundle
+
 endif ()
 
 set(RESOURCE_FILES
@@ -93,7 +92,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets nlohmann_json::nlohma
 # # Define platform-specific configurations
 
 # Set macOS-specific properties (Bundle settings, Info.plist, etc.)
-if (IS_MACOS)
+if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
             MACOSX_BUNDLE TRUE
 #            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/Info.plist # Could use a file or just set the Options below MACOSX_BUNDLE_XXX
@@ -111,12 +110,16 @@ if (IS_MACOS)
         set(MACOSX_BUNDLE_GUI_IDENTIFIER ${PROJECT_DOMAIN})
         set(MACOSX_BUNDLE_ICON_FILE ${ICON_NAME}.icns)
     else()
-        set(CMAKE_BUILD_TYPE Debug)
+        set(CMAKE_BUILD_TYPE "Debug")
     endif ()
-elseif (IS_WINDOWS)
+elseif (WIN32)
     set_target_properties(${PROJECT_NAME} PROPERTIES
             WIN32_EXECUTABLE TRUE
+            RESOURCE ${RESOURCE_FILES}
     )
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+else ()
+    message(FATAL_ERROR "Unsupported platform. This project only supports macOS and Windows currently.")
 endif ()
 
 ## Copy the platform-specific Qt libraries after building (optional, for deployment)
