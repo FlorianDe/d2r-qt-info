@@ -78,12 +78,6 @@ mingw32-make
 
 ## Misc
 
-### Create AppIcon.ico
-
-```
-magick AppIcon.webp -define icon:auto-resize=256,128,64,48,32,16 AppIcon.ico
-```
-
 ### Create AppIcon.icns
 
 1. Install ImageMagick (if not already installed):
@@ -133,5 +127,33 @@ After creating the .icns file, you can remove the intermediate AppIcon.iconset f
 ```bash
 rm -rf AppIcon.iconset
 ```
+
+### Create AppIcon.ico
+
+```
+magick AppIcon.webp -define icon:auto-resize=256,128,64,48,32,16 AppIcon.ico
+```
+
+### Convert *.webp files to *.png (install imagemagick first)
+
+To convert all .webp files in a folder to .png files using a one-liner in a Unix-based shell (like macOS or Linux), you
+can use the following command:
+
+```bash
+for file in *.webp; do magick "$file" "${file%.webp}.png"; done
+```
+
+Delete the old .webp files:
+
+```bash
+rm *.webp
+```
+
+If you have multiple file ending, you can get rid of like this (example .png.png):
+
+```bash
+for file in *.png.png; do mv "$file" "${file%.png.png}.png"; done
+```
+
 
 

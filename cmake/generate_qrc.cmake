@@ -21,7 +21,7 @@ file(APPEND ${RESOURCE_QRC} "<qresource prefix=\"/\">\n")
 file(GLOB_RECURSE RESOURCE_FILES_TO_INCLUDE RELATIVE "${RESOURCE_DIR}" "${RESOURCE_DIR}/images/*" "${RESOURCE_DIR}/json/*")
 
 # Temp hardcoded
-file(APPEND ${RESOURCE_QRC} "  <file alias=\"AppIcon\">AppIcon.webp</file>\n")
+file(APPEND ${RESOURCE_QRC} "  <file alias=\"AppIcon\">AppIcon.png</file>\n")
 
 # Iterate over all found files and append to the resources.qrc file
 foreach (file ${RESOURCE_FILES_TO_INCLUDE})

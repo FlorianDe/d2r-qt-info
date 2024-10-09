@@ -131,6 +131,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::updateTheme() {
+
 	// if (QtUtils::isDarkMode()) {
 	// 	this->setStyleSheet(R"(
 	//            QWidget {
@@ -171,7 +172,7 @@ void MainWindow::updateTheme() {
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
 	if (event->type() == QEvent::ThemeChange) {
-		qDebug() << "Update theme.";
+		qDebug() << "Update theme. To dark mode?:" << QtUtils::isDarkMode();
 		updateTheme();
 		return true;
 	}

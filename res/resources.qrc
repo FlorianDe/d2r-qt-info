@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 <qresource prefix="/">
-  <file alias="AppIcon">AppIcon.webp</file>
+  <file alias="AppIcon">AppIcon.png</file>
   <file>images/item_base_types/armors.png</file>
   <file>images/item_base_types/axes.png</file>
   <file>images/item_base_types/bows.png</file>
@@ -23,39 +23,39 @@
   <file>images/item_base_types/swords.png</file>
   <file>images/item_base_types/wands.png</file>
   <file>images/item_base_types/weapons.png</file>
-  <file>images/runes/amn_rune.png.webp</file>
-  <file>images/runes/ber_rune.png.webp</file>
-  <file>images/runes/cham_rune.png.webp</file>
-  <file>images/runes/dol_rune.png.webp</file>
-  <file>images/runes/el_rune.png.webp</file>
-  <file>images/runes/eld_rune.png.webp</file>
-  <file>images/runes/eth_rune.png.webp</file>
-  <file>images/runes/fal_rune.png.webp</file>
-  <file>images/runes/gul_rune.png.webp</file>
-  <file>images/runes/hel_rune.png.webp</file>
-  <file>images/runes/io_rune.png.webp</file>
-  <file>images/runes/ist_rune.png.webp</file>
-  <file>images/runes/ith_rune.png.webp</file>
-  <file>images/runes/jah_rune.png.webp</file>
-  <file>images/runes/ko_rune.png.webp</file>
-  <file>images/runes/lem_rune.png.webp</file>
-  <file>images/runes/lo_rune.png.webp</file>
-  <file>images/runes/lum_rune.png.webp</file>
-  <file>images/runes/mal_rune.png.webp</file>
-  <file>images/runes/nef_rune.png.webp</file>
-  <file>images/runes/ohm_rune.png.webp</file>
-  <file>images/runes/ort_rune.png.webp</file>
-  <file>images/runes/pul_rune.png.webp</file>
-  <file>images/runes/ral_rune.png.webp</file>
-  <file>images/runes/shael_rune.png.webp</file>
-  <file>images/runes/sol_rune.png.webp</file>
-  <file>images/runes/sur_rune.png.webp</file>
-  <file>images/runes/tal_rune.png.webp</file>
-  <file>images/runes/thul_rune.png.webp</file>
-  <file>images/runes/tir_rune.png.webp</file>
-  <file>images/runes/um_rune.png.webp</file>
-  <file>images/runes/vex_rune.png.webp</file>
-  <file>images/runes/zod_rune.png.webp</file>
+  <file>images/runes/amn_rune.png</file>
+  <file>images/runes/ber_rune.png</file>
+  <file>images/runes/cham_rune.png</file>
+  <file>images/runes/dol_rune.png</file>
+  <file>images/runes/el_rune.png</file>
+  <file>images/runes/eld_rune.png</file>
+  <file>images/runes/eth_rune.png</file>
+  <file>images/runes/fal_rune.png</file>
+  <file>images/runes/gul_rune.png</file>
+  <file>images/runes/hel_rune.png</file>
+  <file>images/runes/io_rune.png</file>
+  <file>images/runes/ist_rune.png</file>
+  <file>images/runes/ith_rune.png</file>
+  <file>images/runes/jah_rune.png</file>
+  <file>images/runes/ko_rune.png</file>
+  <file>images/runes/lem_rune.png</file>
+  <file>images/runes/lo_rune.png</file>
+  <file>images/runes/lum_rune.png</file>
+  <file>images/runes/mal_rune.png</file>
+  <file>images/runes/nef_rune.png</file>
+  <file>images/runes/ohm_rune.png</file>
+  <file>images/runes/ort_rune.png</file>
+  <file>images/runes/pul_rune.png</file>
+  <file>images/runes/ral_rune.png</file>
+  <file>images/runes/shael_rune.png</file>
+  <file>images/runes/sol_rune.png</file>
+  <file>images/runes/sur_rune.png</file>
+  <file>images/runes/tal_rune.png</file>
+  <file>images/runes/thul_rune.png</file>
+  <file>images/runes/tir_rune.png</file>
+  <file>images/runes/um_rune.png</file>
+  <file>images/runes/vex_rune.png</file>
+  <file>images/runes/zod_rune.png</file>
   <file>json/runeword_item_type_hierarchy.json</file>
   <file>json/runewords.json</file>
 </qresource>

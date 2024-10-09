@@ -58,7 +58,7 @@ endif ()
 
 set(RESOURCE_FILES
         res/resources.qrc
-        res/${ICON_NAME}.webp
+        res/${ICON_NAME}.png
         ${APP_ICON}
 )
 
