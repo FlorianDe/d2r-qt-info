@@ -8,11 +8,17 @@ if(APPLE)
 endif(APPLE)
 
 project(D2R-Qt-Info LANGUAGES CXX)
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+include(get_version_from_git)
+get_version_from_git()
+
 # Project 
 set(PROJECT_COMPANY "FlorianDe")
 set(PROJECT_COPYRIGHT "Copyright (c) FlorianDe. All rights reserved.")
 #set(PROJECT_DOMAIN "de.floriande.d2r-info")
-set(PROJECT_VERSION 1.0)
+set(PROJECT_VERSION ${SEMVER})
 set(PROJECT_BUNDLE_NAME ${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
