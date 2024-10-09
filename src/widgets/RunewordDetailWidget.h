@@ -27,6 +27,7 @@ private:
 	void setupUI(const QtRunewordDetailModel& runeWord);
 
 	QWidget* createTitleAndRunesSection(const QtRunewordDetailModel& runeWord);
+	static QString getRuneImagePath(const QString& rune);
 	QWidget* createAttributesSection(const QtRunewordDetailModel& runeWord);
 	QWidget* createVersionAndCompatibilitySection(const QtRunewordDetailModel& runeWord);
 };

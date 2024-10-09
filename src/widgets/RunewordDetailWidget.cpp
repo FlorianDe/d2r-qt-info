@@ -55,6 +55,10 @@ QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetail
 	return section;
 }
 
+QString RunewordDetailWidget::getRuneImagePath(const QString& rune) {
+	return ":/images/runes/" + rune.toLower() + "_rune.png.webp";
+}
+
 QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailModel& runeWord) {
 	constexpr int RUNE_SIZE = 48;
 	QWidget* section = new QWidget(this);
@@ -77,14 +81,20 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	runeContentLayout->setSpacing(0);
 
 	for (const QString& rune : runeWord.runes) {
-		QPixmap icon(":/images/runes/" + rune.toLower() + "_rune.png.webp");
-		QLabel* iconLabel = new QLabel(this);
-		iconLabel->setFixedSize(RUNE_SIZE, RUNE_SIZE);
+		const auto runeImagePath = getRuneImagePath(rune);
 
-		iconLabel->setPixmap(icon.scaled(iconLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-		iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+		QPixmap icon(runeImagePath);
+		if (icon.isNull()) {
+			qDebug() << "Failed loading pixmap from path: " << runeImagePath;
+		} else {
+			QLabel* iconLabel = new QLabel(this);
+			iconLabel->setFixedSize(RUNE_SIZE, RUNE_SIZE);
 
-		runeContentLayout->addWidget(iconLabel);
+			iconLabel->setPixmap(icon.scaled(iconLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+
+			runeContentLayout->addWidget(iconLabel);
+		}
 	}
 
 	QWidget* attributesContent = new QWidget(this);
