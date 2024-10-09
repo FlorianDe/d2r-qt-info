@@ -46,6 +46,10 @@ QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetail
 
 	QLabel* runesLabel = new QLabel(runeWord.runes.join(", "), section);
 	runesLabel->setAlignment(Qt::AlignCenter);
+	// language=CSS
+	runesLabel->setStyleSheet(R"(*{
+		color: #ffffff;
+	})");
 
 	layout->addWidget(titleLabel);
 	layout->addWidget(runesLabel);
@@ -56,7 +60,7 @@ QWidget* RunewordDetailWidget::createTitleAndRunesSection(const QtRunewordDetail
 }
 
 QString RunewordDetailWidget::getRuneImagePath(const QString& rune) {
-	return ":/images/runes/" + rune.toLower() + "_rune.png.webp";
+	return ":/images/runes/" + rune.toLower() + "_rune.png";
 }
 
 QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailModel& runeWord) {
@@ -67,12 +71,15 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 	section->setStyleSheet(R"(
 	#section{
 		background-color: #2E2927;
-		color: #ffffff;
 		border: 2px solid #212121;
+	}
+	* {
+		color: #ffffff;
 	}
 	)");
 
 	QHBoxLayout* mainLayout = new QHBoxLayout(section);
+	mainLayout->setContentsMargins(10, 10, RUNE_SIZE+2*10, 10);
 
 	QWidget* runeContent = new QWidget(this);
 	runeContent->setFixedWidth(RUNE_SIZE);
@@ -133,7 +140,16 @@ QWidget* RunewordDetailWidget::createAttributesSection(const QtRunewordDetailMod
 QWidget* RunewordDetailWidget::createVersionAndCompatibilitySection(const QtRunewordDetailModel& runeWord) {
 	QWidget* section = new QWidget(this);
 	section->setObjectName("section");
-	section->setStyleSheet("#section{background-color: #2E2927; color: #ffffff; border: 2px solid #212121;}");
+	// language=CSS
+	section->setStyleSheet(R"(
+	#section{
+		background-color: #2E2927;
+		border: 2px solid #212121;
+	}
+	* {
+		color: #ffffff;
+	}
+)");
 
 	QVBoxLayout* layout = new QVBoxLayout(section);
 	layout->setSpacing(5);
