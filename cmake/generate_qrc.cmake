@@ -1,6 +1,7 @@
 # TODO: Try to get rid of the .qrc file at all and add the resources via Cmake qt_add_resources check https://doc.qt.io/qt-6/resources.html
 
-# RUN WITH cmake ./cmake/generate_qrc.cmake
+# RUN WITH:
+# cmake -P ./cmake/generate_qrc.cmake
 
 #if (DEFINED RESOURCE_DIR)
 #    message(STATUS "Resource Directory: ${RESOURCE_DIR}")

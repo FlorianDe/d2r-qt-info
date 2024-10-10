@@ -2,8 +2,8 @@
 <RCC version="1.0">
 <qresource prefix="/">
   <file alias="AppIcon">AppIcon.png</file>
-  <file>images/item_base_types/armors.png</file>
   <file>images/item_base_types/axes.png</file>
+  <file>images/item_base_types/body_armors.png</file>
   <file>images/item_base_types/bows.png</file>
   <file>images/item_base_types/claws.png</file>
   <file>images/item_base_types/clubs.png</file>
@@ -16,7 +16,7 @@
   <file>images/item_base_types/orbs.png</file>
   <file>images/item_base_types/paladin_shields.png</file>
   <file>images/item_base_types/polearms.png</file>
-  <file>images/item_base_types/sceptres.png</file>
+  <file>images/item_base_types/scepters.png</file>
   <file>images/item_base_types/shields.png</file>
   <file>images/item_base_types/spears.png</file>
   <file>images/item_base_types/staves.png</file>
@@ -56,7 +56,7 @@
   <file>images/runes/um_rune.png</file>
   <file>images/runes/vex_rune.png</file>
   <file>images/runes/zod_rune.png</file>
-  <file>json/runeword_item_type_hierarchy.json</file>
   <file>json/runewords.json</file>
+  <file>json/runewords_item_types_hierarchy.json</file>
 </qresource>
 </RCC>
