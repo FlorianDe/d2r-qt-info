@@ -1,0 +1,122 @@
+{
+  "Body Armors": {
+    "translation": {
+      "en": "Body Armors",
+      "de": "Rüstungen"
+    },
+    "subtypes": {}
+  },
+  "Helms": {
+    "translation": {
+      "en": "Helms",
+      "de": "Helme"
+    },
+    "subtypes": {}
+  },
+  "Shields": {
+    "translation": {
+      "en": "Shields",
+      "de": "Schilde"
+    },
+    "subtypes": {
+      "Paladin Shields": {
+        "translation": {
+          "en": "Paladin Shields",
+          "de": "Paladin-Schilde"
+        }
+      }
+    }
+  },
+  "Weapons": {
+    "translation": {
+      "en": "Weapons",
+      "de": "Waffen"
+    },
+    "subtypes": {
+      "Axes": {
+        "translation": {
+          "en": "Axes",
+          "de": "Äxte"
+        }
+      },
+      "Staves": {
+        "translation": {
+          "en": "Staves",
+          "de": "Schlagstäbe"
+        }
+      },
+      "Maces": {
+        "translation": {
+          "en": "Maces",
+          "de": "Keulen"
+        }
+      },
+      "Clubs": {
+        "translation": {
+          "en": "Clubs",
+          "de": "Knüppel"
+        }
+      },
+      "Hammers": {
+        "translation": {
+          "en": "Hammers",
+          "de": "Hämmer"
+        }
+      },
+      "Scepters": {
+        "translation": {
+          "en": "Scepters",
+          "de": "Szepter"
+        }
+      },
+      "Swords": {
+        "translation": {
+          "en": "Swords",
+          "de": "Schwerter"
+        }
+      },
+      "Daggers": {
+        "translation": {
+          "en": "Daggers",
+          "de": "Messer"
+        }
+      },
+      "Spears": {
+        "translation": {
+          "en": "Spears",
+          "de": "Speere"
+        }
+      },
+      "Polearms": {
+        "translation": {
+          "en": "Polearms",
+          "de": "Stangenwaffen"
+        }
+      },
+      "Bows": {
+        "translation": {
+          "en": "Bows",
+          "de": "Bögen"
+        }
+      },
+      "Crossbows": {
+        "translation": {
+          "en": "Crossbows",
+          "de": "Armbrüste"
+        }
+      },
+      "Claws": {
+        "translation": {
+          "en": "Claws",
+          "de": "Klauen"
+        }
+      },
+      "Orbs": {
+        "translation": {
+          "en": "Orbs",
+          "de": "Orbs"
+        }
+      }
+    }
+  }
+}

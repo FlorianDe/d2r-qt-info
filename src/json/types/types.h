@@ -2,6 +2,6 @@
 #define TYPES_H
 
 #include "json/types/Runeword.h"
-// more to come!
+#include "json/types/RunewordItemTypesHierarchy.h"
 
 #endif // TYPES_H
