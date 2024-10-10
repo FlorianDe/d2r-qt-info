@@ -2,6 +2,8 @@
 #define GRAPH_H
 #include "json/types/types.h"
 #include <string>
+#include <optional>
+#include <functional>
 #include <stack>
 
 namespace Graph {

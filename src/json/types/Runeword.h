@@ -2,6 +2,9 @@
 #define RUNEWORD_H
 
 #include <nlohmann/json.hpp>
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace types::json {
 struct Runeword {
