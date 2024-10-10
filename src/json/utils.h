@@ -7,7 +7,7 @@
 namespace JsonUtils {
 
 // Function to read JSON from a file path and return a nlohmann::json object
-nlohmann::json readJsonFile(const QString& resourcePath);
+nlohmann::ordered_json readJsonFile(const QString& resourcePath);
 
 } // namespace JsonUtils
 

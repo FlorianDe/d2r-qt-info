@@ -6,7 +6,7 @@
 
 namespace JsonUtils {
 
-nlohmann::json readJsonFile(const QString& resourcePath) {
+nlohmann::ordered_json readJsonFile(const QString& resourcePath) {
 	// Open the resource file using QFile
 	QFile file(resourcePath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -23,9 +23,9 @@ nlohmann::json readJsonFile(const QString& resourcePath) {
 	std::string jsonString = jsonContent.toStdString();
 
 	// Parse the JSON data using nlohmann::json
-	nlohmann::json jsonData;
+	nlohmann::ordered_json jsonData;
 	try {
-		jsonData = nlohmann::json::parse(jsonString);
+		jsonData = nlohmann::ordered_json::parse(jsonString);
 	} catch (nlohmann::json::parse_error& e) {
 		std::cerr << "JSON parse error: " << e.what() << std::endl;
 		return {}; // Return an empty JSON object in case of parse failure
