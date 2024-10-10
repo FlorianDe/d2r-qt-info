@@ -1,6 +1,7 @@
 #include "FilterWidget.h"
 #include "RuneCheckBoxGridWidget.h"
 #include "SocketAmountCheckBoxGridWidget.h"
+#include "misc/graph.h"
 
 #include <QApplication>
 #include <QComboBox>
@@ -57,13 +58,15 @@ public:
 	}
 };
 
-FilterWidget::FilterWidget(QWidget* parent) : QWidget(parent) { setupUI(); }
+FilterWidget::FilterWidget(const std::vector<types::json::Runeword>& runewords,
+													 const types::json::RunewordItemTypesHierarchy& runewordsItemTypesHierarchy,
+													 QWidget* parent) : QWidget(parent), m_runewords(runewords), m_runewordsItemTypesHierarchy(runewordsItemTypesHierarchy) {
 
-void FilterWidget::setupUI() {
 	const QPointer mainLayout = new QVBoxLayout();
 
 	QLabel* runeWordLabel = new QLabel(tr("Select runeword") + ":", this);
 	m_runeWordComboBox = new QComboBox(this);
+	populateRuneWords();
 	this->connect(m_runeWordComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
 								&FilterWidget::onRuneWordSelected);
 
@@ -76,14 +79,7 @@ void FilterWidget::setupUI() {
 
 	m_itemTypeComboBox = new QComboBox(this);
 	m_itemTypeComboBox->setItemDelegate(new BaseItemTypeComboBoxDelegate(this));
-	QStringList items = {"Weapons", "Armors", "Shields", "Axes"};
-	for (int i = 0; i < items.size(); ++i) {
-		const auto iconPath = ":/images/item_base_types/" + items[i].toLower() + ".png";
-		auto image = QIcon(iconPath);
-		BaseItemTypeComboBoxModel extraData{image, 0};
-		m_itemTypeComboBox->addItem(items[i], QVariant::fromValue(extraData));
-	}
-	// populateItemTypes();
+	populateItemTypes();
 
 	QVBoxLayout* socketSelectionLayout = new QVBoxLayout();
 	QLabel* socketsSelectionLabel = new QLabel(tr("Sockets"));
@@ -120,18 +116,32 @@ void FilterWidget::onRuneWordSelected() {
 }
 
 void FilterWidget::populateItemTypes() const {
-	// TODO: initialize
-	const QList<QString> baseTypes = {"Weapon", "Armor", "Shield", "Accessory"};
-	m_itemTypeComboBox->addItems(baseTypes);
+
+	auto addItemToComboBox = [this](const Graph::ItemStackEntry& entry) {
+		const auto itemType = QString::fromStdString(entry.itemType->translation.en);
+		const auto iconPath = ":/images/item_base_types/" + itemType.toLower().replace(" ", "_") + ".png";
+		auto image = QIcon(iconPath);
+		BaseItemTypeComboBoxModel extraData{image, entry.level};
+		m_itemTypeComboBox->addItem(itemType, QVariant::fromValue(extraData));
+	};
+
+	Graph::dfs(m_runewordsItemTypesHierarchy, addItemToComboBox);
+
 	m_itemTypeComboBox->setCurrentIndex(-1);
 }
 
-void FilterWidget::populateRuneWords(const QList<QString>& runewords) const {
-	auto rws = runewords;
-	rws.sort();
-	m_runeWordComboBox->addItems(rws);
+void FilterWidget::populateRuneWords() const {
+	QList<QString> titles;
+	titles.reserve(m_runewords.size());
+	for (const auto& item : m_runewords) {
+		titles.push_back(QString::fromStdString(item.title));
+	}
+	std::sort(titles.begin(), titles.end());
+
+	m_runeWordComboBox->addItems(titles);
 	m_runeWordComboBox->setCurrentIndex(-1);
 }
+
 FilterWidget::FilterState FilterWidget::getFilterState() const {
 	const QString itemType = m_itemTypeComboBox->currentIndex() == -1 ? nullptr : m_itemTypeComboBox->currentText();
 	const QVector<int> selectedSocketOptions = m_socketsSelection->getSelectedSocketAmounts();
@@ -147,7 +157,11 @@ FilterWidget::FilterState FilterWidget::getFilterState() const {
 	};
 }
 
-void FilterWidget::onSearchClicked() { emit filterChanged(this->getFilterState()); }
+void FilterWidget::onSearchClicked() {
+	m_runeWordComboBox->setCurrentIndex(-1);
+
+	emit filterChanged(this->getFilterState());
+}
 
 void FilterWidget::onResetClicked() {
 	m_runeWordComboBox->setCurrentIndex(-1);

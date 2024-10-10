@@ -13,13 +13,16 @@
 #include "MainWindow.h"
 #include "constants.h"
 #include "misc/debug_utils.h"
+#include "misc/graph.h"
 #include "widgets/RunewordDetailWidget.h"
 #include "json/types/types.h"
 #include "json/utils.h"
 
 #include <misc/qt_utils.h>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(const std::vector<types::json::Runeword>& runewords,
+											 const types::json::RunewordItemTypesHierarchy& runewordItemTypesHierarchy, QWidget* parent)
+		: QMainWindow(parent), m_runewords(runewords), m_runewordsItemTypesHierarchy(runewordItemTypesHierarchy) {
 	qDebug() << "Default style:" << this->style()->objectName();
 	if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
 		const QString styleName = "Windows";
@@ -43,7 +46,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	const QPointer mainLayout = new QVBoxLayout(m_centralWidget);
 	mainLayout->addWidget(m_splitter);
 
-	m_filterWidget = new FilterWidget(this);
+	m_filterWidget = new FilterWidget(m_runewords, m_runewordsItemTypesHierarchy, this);
 	m_filterWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
 	m_scrollArea = new QScrollArea(this);
@@ -59,19 +62,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	m_splitter->addWidget(m_scrollArea);
 	m_splitter->setSizes({100, WIDTH - 100}); // Initial size of widgets
 
-	const auto runewords = JsonUtils::readJsonFile(QString::fromStdString(Constants::Files::RUNEWORDS))
-														 .get<std::vector<types::json::Runeword>>();
-	// auto runewordsHierarchy =
-	// 	JsonUtils::readJsonFile(":/runeword_item_type_hierarchy.json").get<std::vector<types::json::Runeword>
-	// >();
-
 	m_scrollAreaLayout->addStretch();
-	QList<QString> runewordTitles;
-	for (const auto& rw : runewords) {
+	for (const auto& rw : this->m_runewords) {
 		RunewordDetailWidget::QtRunewordDetailModel runeWordData;
 
 		runeWordData.title = QString::fromStdString(rw.title);
-		runewordTitles << runeWordData.title;
 
 		if (rw.version.has_value()) {
 			runeWordData.version = QString::fromStdString(rw.version.value());
@@ -98,8 +93,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	}
 	m_scrollAreaLayout->addStretch();
 
-	m_filterWidget->populateRuneWords(runewordTitles);
-
 	this->connect(m_filterWidget, &FilterWidget::runewordSelectionChanged, this, &MainWindow::onRunewordSelectionChange);
 	this->connect(m_filterWidget, &FilterWidget::filterChanged, this, &MainWindow::onFilterChanged);
 
@@ -115,7 +108,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 	const QPointer aboutAction = new QAction(tr("&About"), this);
 	connect(aboutAction, &QAction::triggered, this, [this] {
 		QMessageBox::about(this, tr("About"),
-											 QCoreApplication::applicationName() + "\n\nVersion: " + QCoreApplication::applicationVersion() + "\n\nHash: "+CMAKE_DEF_COMMIT_HASH_VERSION);
+											 QCoreApplication::applicationName() + "\n\nVersion: " + QCoreApplication::applicationVersion() +
+													 "\n\nHash: " + CMAKE_DEF_COMMIT_HASH_VERSION);
 	});
 	helpMenu->addAction(aboutAction);
 
@@ -205,10 +199,29 @@ void MainWindow::onFilterChanged(const FilterWidget::FilterState& filterState) {
 	qDebug() << "Selected mode: "
 					 << (logicalRunesOperator == RuneCheckBoxGridWidget::LogicalRunesOperator::OR ? "OR" : "AND");
 
+	// const auto runewordsItemTypesHierarchy =
+	// 	JsonUtils::readJsonFile(QString::fromStdString(Constants::Files::RUNEWORDS_ITEM_TYPES_HIERARCHY))
+	// 			.get<types::json::RunewordItemTypesHierarchy>();
+
+	QList<QString> searchForItemTypes;
+	if (itemType != nullptr) {
+		auto collectItemHierarchy = [this, &searchForItemTypes](const Graph::ItemStackEntry& entry) {
+			searchForItemTypes.push_back(QString::fromStdString(entry.name));
+			qDebug() << "HIT" << entry.name;
+		};
+
+		Graph::dfs(this->m_runewordsItemTypesHierarchy, collectItemHierarchy, itemType.toStdString());
+	}
+
 	for (auto* detailWidget : this->m_detailWidgets) {
 		auto rw = detailWidget->getRuneWord();
-
-		const bool itemTypeMatches = itemType == nullptr ? true : true;
+		const bool itemTypeMatches =
+				itemType == nullptr
+						? true
+						: std::any_of(searchForItemTypes.begin(), searchForItemTypes.end(), [&rw](const auto& item) {
+								return std::find(rw.itemTypes.begin(), rw.itemTypes.end(), item) != rw.itemTypes.end();
+							});
+		;
 		const bool socketsMatched = selectedSocketOptions.isEmpty()
 																		? true
 																		: std::find(selectedSocketOptions.begin(), selectedSocketOptions.end(),

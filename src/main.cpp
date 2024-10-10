@@ -5,6 +5,8 @@
 
 #include "misc/cli_parser.h"
 
+#include "json/utils.h"
+
 int main(int argc, char* argv[]) {
 	Q_INIT_RESOURCE(resources);
 	QApplication app(argc, argv);
@@ -38,7 +40,14 @@ int main(int argc, char* argv[]) {
 	appIcon.addFile(QString::fromStdString(Constants::Files::APP_ICON_PATH));
 	app.setWindowIcon(appIcon);
 
-	MainWindow mainWindow;
+	const auto runewords = JsonUtils::readJsonFile(QString::fromStdString(Constants::Files::RUNEWORDS))
+													 .get<std::vector<types::json::Runeword>>();
+
+	const auto runewordsItemTypesHierarchy =
+			JsonUtils::readJsonFile(QString::fromStdString(Constants::Files::RUNEWORDS_ITEM_TYPES_HIERARCHY))
+					.get<types::json::RunewordItemTypesHierarchy>();
+
+	MainWindow mainWindow(runewords, runewordsItemTypesHierarchy, nullptr);
 	mainWindow.show();
 
 	return app.exec();

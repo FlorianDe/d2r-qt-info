@@ -12,7 +12,7 @@ class MainWindow final : public QMainWindow {
 	Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget* parent = nullptr);
+	explicit MainWindow(const std::vector<types::json::Runeword>& vector, const types::json::RunewordItemTypesHierarchy& runeword_item_types_hierarchy, QWidget* parent = nullptr);
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event) override;
@@ -30,6 +30,9 @@ private:
 	QScrollArea* m_scrollArea;
 	QWidget* m_scrollAreaContent;
 	QVBoxLayout* m_scrollAreaLayout;
+
+	std::vector<types::json::Runeword> m_runewords;
+	types::json::RunewordItemTypesHierarchy m_runewordsItemTypesHierarchy;
 };
 
 #endif // MAINWINDOW_H
