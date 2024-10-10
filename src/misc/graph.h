@@ -2,6 +2,7 @@
 #define GRAPH_H
 #include "json/types/types.h"
 #include <string>
+#include <stack>
 
 namespace Graph {
 struct ItemStackEntry {
