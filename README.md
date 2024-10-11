@@ -1,8 +1,9 @@
 
 [![CI Build](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml/badge.svg)](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml)
 
-[![GitHub commits since latest release](https://img.shields.io/github/commits-since/FlorianDe/d2r-qt-info/latest?label=Version)](https://github.com/FlorianDe/d2r-qt-info/releases)
-[![GitHub commits since latest release (branch)](https://img.shields.io/github/commits-since/FlorianDe/d2r-qt-info/latest/main?include_prereleases&label=Commits%20since%20last%20release&color=03a1fc)](https://github.com/FlorianDe/d2r-qt-info/commits/main/)
+[![GitHub Release](https://img.shields.io/github/v/release/FlorianDe/d2r-qt-info?label=Version)](https://github.com/FlorianDe/d2r-qt-info/releases)
+[![GitHub commits since latest release](https://img.shields.io/github/commits-since/FlorianDe/d2r-qt-info/latest)
+](https://github.com/FlorianDe/d2r-qt-info/commits/main/)
 
 # D2R-Qt-Info
 
