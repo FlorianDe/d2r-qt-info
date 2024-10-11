@@ -1,6 +1,23 @@
+
+[![CI Build](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml/badge.svg)](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml)
+
+[![GitHub commits since latest release](https://img.shields.io/github/commits-since/FlorianDe/d2r-qt-info/latest?label=Version)](https://github.com/FlorianDe/d2r-qt-info/releases)
+[![GitHub commits since latest release (branch)](https://img.shields.io/github/commits-since/FlorianDe/d2r-qt-info/latest/main?include_prereleases&label=Commits%20since%20last%20release&color=03a1fc)](https://github.com/FlorianDe/d2r-qt-info/commits/main/)
+
+# D2R-Qt-Info
+
+D2R-Qt-Info is a proof-of-concept project built to explore and familiarize with Qt6 using C++, as well as the
+development tooling and GitHub’s CI/CD workflow integration with C++ on multiple platforms. The project implements basic
+functionality related to handling and displaying data from Diablo 2: Resurrected, focusing on experimenting with Qt’s
+framework and features. While it
+includes some Diablo 2-specific components, the primary aim is to gain practical experience with modern C++ development
+and continuous integration/deployment pipelines within a Qt6/C++ environment.
+
+This project can be seen and used as a good starter to set up a desktop cross-platform Qt/C++ project.
+
 ## Problems
 
-### App Is Damaged and Can’t Be Opened. You Should Move It To The Trash
+### [MacOS] App Is Damaged and Can’t Be Opened. You Should Move It To The Trash
 
 This is due to the App not being Signed currently, you have to remove the quarantine flag from the .app and its content
 by using the following command:
@@ -12,6 +29,21 @@ xattr -rd com.apple.quarantine /path/to/D2R-Qt-Info.app
 ## Build and Run Commands
 
 ### macOS
+
+1. You can use Homebrew to install both:
+
+```bash
+brew install qt cmake
+```
+
+You’ll need to ensure that Qt’s CMake integration is available. The path to the Qt installation should be made available
+to CMake (Homebrew installs Qt in /opt/homebrew/opt/qt for Apple Silicon or /usr/local/opt/qt for Intel):
+
+```bash
+export Qt6_DIR=$(brew --prefix qt)/lib/cmake/Qt6
+````
+
+or if you want to try to build qt from source e.g. for static linking:
 
 1. Install Qt and CMake:
 
@@ -38,33 +70,17 @@ Documentation: https://doc.qt.io/qt-6/configure-options.html
 ~/Downloads/qt-everywhere-src-6.7.2/configure -nomake tests -nomake examples -skip qtwebengine -prefix /usr/local/qt6 -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 ```
 
-NOT WORKING:
-You can use Homebrew to install both:
-
-```bash
-brew install qt cmake
-```
-
-You’ll need to ensure that Qt’s CMake integration is available. The path to the Qt installation should be made available
-to CMake (Homebrew installs Qt in /opt/homebrew/opt/qt for Apple Silicon or /usr/local/opt/qt for Intel):
-
-```bash
-export Qt6_DIR=$(brew --prefix qt)/lib/cmake/Qt6
-````
-
 2. Build the project:
 
 ```bash
-mkdir build
-cd build
-cmake .. -DCMAKE_PREFIX_PATH=$(brew --prefix qt) -DCMAKE_BUILD_TYPE=Release
-make
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$(brew --prefix qt)
+cmake --build build --config Release --parallel
 ```
 
 3. Run the application:
 
 ```bash
-./D2R-Qt-Info
+./build/D2R-Qt-Info.app/Contents/MacOS/D2R-Qt-Info
 ```
 
 ### Windows (Native Windows Build)
