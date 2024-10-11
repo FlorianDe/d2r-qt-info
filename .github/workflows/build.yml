@@ -219,4 +219,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
-            artifacts/*
+            artifacts/${{env.app_name}}.*.zip
