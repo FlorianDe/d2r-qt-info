@@ -1,4 +1,3 @@
-
 [![CI Build](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml/badge.svg)](https://github.com/FlorianDe/d2r-qt-info/actions/workflows/build.yml)
 
 [![GitHub Release](https://img.shields.io/github/v/release/FlorianDe/d2r-qt-info?label=Version)](https://github.com/FlorianDe/d2r-qt-info/releases)
@@ -16,6 +15,8 @@ and continuous integration/deployment pipelines within a Qt6/C++ environment.
 
 This project can be seen and used as a good starter to set up a desktop cross-platform Qt/C++ project.
 
+![Screenshot App on MacOS Dark Mode](.github/docs/resources/images/Screenshot_MacOS_Dark.png)
+
 ## Problems
 
 ### [MacOS] App Is Damaged and Can’t Be Opened. You Should Move It To The Trash
@@ -27,7 +28,7 @@ by using the following command:
 xattr -rd com.apple.quarantine /path/to/D2R-Qt-Info.app
 ```
 
-## Build and Run Commands
+## Development
 
 ### macOS
 
@@ -172,5 +173,24 @@ If you have multiple file ending, you can get rid of like this (example .png.png
 for file in *.png.png; do mv "$file" "${file%.png.png}.png"; done
 ```
 
+### Compress file size of a screenshot
 
+Imagemagick can also be used to compress an image, but the result of a software like pnqquant is not comparable.
 
+Compress an image with pngquant and write to another output file:
+
+```
+pngquant --quality=70-90 --output output.png input.png
+```
+
+[!Be Careful] Compress an image and overwrite it with the compressed version of it.
+
+```
+pngquant --quality=70-90 --ext .png --force 
+```
+
+Install pngquant (macos brew):
+
+```bash
+ brew install pngquant
+```
